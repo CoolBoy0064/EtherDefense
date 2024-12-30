@@ -1,0 +1,45 @@
+[gd_scene load_steps=7 format=3 uid="uid://bwteg7ognsle"]
+
+[ext_resource type="Script" path="res://Turret.gd" id="2"]
+[ext_resource type="PackedScene" uid="uid://kcjtbmsl5754" path="res://Projectiles/Boolet.tscn" id="3"]
+[ext_resource type="Texture2D" uid="uid://cag718x5fh2ap" path="res://Textures/TurretBaseplate.png" id="3_qvpx3"]
+[ext_resource type="Texture2D" uid="uid://b1vkuk3viijll" path="res://Textures/Turret_Head.png" id="4_ikkc1"]
+
+[sub_resource type="RectangleShape2D" id="1"]
+size = Vector2(64, 74)
+
+[sub_resource type="RectangleShape2D" id="2"]
+size = Vector2(1144, 67.75)
+
+[node name="Turret" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 5
+script = ExtResource("2")
+Bullet = ExtResource("3")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("3_qvpx3")
+
+[node name="Sprite2D" type="Sprite2D" parent="Sprite2D"]
+position = Vector2(2, -22)
+texture = ExtResource("4_ikkc1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, -5)
+shape = SubResource("1")
+
+[node name="Gun" type="Marker2D" parent="."]
+position = Vector2(37, -21)
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(2, 0)
+collision_layer = 2
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+modulate = Color(1, 0.917647, 0.32549, 1)
+position = Vector2(-2, -2.125)
+shape = SubResource("2")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_Area2D_body_exited"]

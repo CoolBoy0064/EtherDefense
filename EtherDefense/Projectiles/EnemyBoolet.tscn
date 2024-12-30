@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://bdjatifhtb4wk"]
+
+[ext_resource type="Script" path="res://Projectiles/GUN.gd" id="1_u2a2s"]
+[ext_resource type="Texture2D" uid="uid://d2w6h84d5g68p" path="res://Textures/Lemon.png" id="2_s8mw8"]
+
+[sub_resource type="RectangleShape2D" id="5"]
+size = Vector2(21, 14)
+
+[node name="EnemyBoolet" type="Area2D"]
+collision_layer = 8
+collision_mask = 2
+script = ExtResource("1_u2a2s")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, 0)
+shape = SubResource("5")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(4.76837e-07, 4.76837e-07)
+scale = Vector2(2.625, 1.75)
+texture = ExtResource("2_s8mw8")
+
+[connection signal="body_entered" from="." to="." method="_on_Boolet_body_entered"]

@@ -1,0 +1,74 @@
+[gd_scene load_steps=12 format=3 uid="uid://b38fv8ebxh62y"]
+
+[ext_resource type="Script" path="res://Player.gd" id="2"]
+[ext_resource type="PackedScene" uid="uid://c7jof21gvvmq5" path="res://Projectiles/Melee Hurtbox.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://kcjtbmsl5754" path="res://Projectiles/Boolet.tscn" id="4"]
+[ext_resource type="PackedScene" uid="uid://b57kc1odwdb1f" path="res://Projectiles/Shield.tscn" id="5"]
+[ext_resource type="PackedScene" uid="uid://bpcp15pejsahi" path="res://Projectiles/ShieldUp.tscn" id="6"]
+[ext_resource type="Texture2D" uid="uid://dblort43lji55" path="res://Textures/Player Ready.png" id="6_3a3f0"]
+
+[sub_resource type="CanvasItemMaterial" id="8"]
+
+[sub_resource type="RectangleShape2D" id="1"]
+size = Vector2(112, 128)
+
+[sub_resource type="RectangleShape2D" id="2"]
+size = Vector2(114, 130)
+
+[sub_resource type="CanvasItemMaterial" id="9"]
+
+[sub_resource type="Theme" id="5"]
+
+[node name="Player" type="CharacterBody2D"]
+material = SubResource("8")
+collision_layer = 2
+collision_mask = 31
+script = ExtResource("2")
+Health = 20
+damage = 10
+Bullet = ExtResource("4")
+Melee = ExtResource("3")
+Shield = ExtResource("5")
+ShieldUp = ExtResource("6")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-7, 0)
+scale = Vector2(-1, 1)
+texture = ExtResource("6_3a3f0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("1")
+
+[node name="EnemyDetector" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyDetector"]
+shape = SubResource("2")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="PkmnGUN" type="Marker2D" parent="."]
+position = Vector2(59, 0)
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+light_mask = 1048575
+material = SubResource("9")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -45.0
+offset_top = -73.0
+offset_right = 335.0
+offset_bottom = -46.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.2, 0.2)
+theme = SubResource("5")
+max_value = 20.0
+value = 20.0
+
+[node name="PkmnGUN2" type="Marker2D" parent="."]
+position = Vector2(-61, 0)
+
+[connection signal="body_entered" from="EnemyDetector" to="." method="_on_EnemyDetector_body_entered"]
