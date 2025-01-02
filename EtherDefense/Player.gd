@@ -74,7 +74,7 @@ func _physics_process(delta):
 	
 	if wallJump:
 		wallJumpT += 1
-		if wallJumpT == 11:
+		if wallJumpT == 12:
 			wallJump = 0
 			wallJumpT = 0
 			
@@ -91,11 +91,11 @@ func _physics_process(delta):
 	
 	
 	
-	if velocity.x > 0 and lookLeft and !isShieldUp:
+	if velocity.x > 0 and lookLeft and !isShieldUp and !wallJump:
 		sprite.flip_h = false
 		lookLeft = 0
 		
-	elif velocity.x < 0 and !lookLeft and !isShieldUp:
+	elif velocity.x < 0 and !lookLeft and !isShieldUp and !wallJump:
 		sprite.flip_h = true
 		lookLeft = 1
 	
