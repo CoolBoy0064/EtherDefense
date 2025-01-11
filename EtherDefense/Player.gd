@@ -65,6 +65,14 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 
 func _physics_process(delta):
+	
+	#Jumping and gravity
+	
+	if Input.is_action_just_pressed("jump") and is_on_wall() and !shieldActive and !is_on_floor() and !wallJump:
+		if Input.is_action_pressed("dash"):
+			isDashing = 1
+		wallJump = 1
+		direction.x = -direction.x
 	is_jump_interrupted = Input.is_action_just_released("jump") and velocity.y < 0
 	direction = get_direction(wallJump)
 	velocity = calculate_move_velocity(velocity,direction, speed, is_jump_interrupted, wallJump)
@@ -99,19 +107,7 @@ func _physics_process(delta):
 		sprite.flip_h = true
 		lookLeft = 1
 	
-		
 
-		
-	#Jumping and gravity
-	
-	if Input.is_action_just_pressed("jump") and is_on_wall() and !shieldActive:
-		if Input.is_action_pressed("dash"):
-			isDashing = 1
-		wallJump = 1
-		direction.x = -direction.x
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
 
 
 # Called when the node enters the scene tree for the first time.

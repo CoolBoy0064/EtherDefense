@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://b38fv8ebxh62y"]
+[gd_scene load_steps=14 format=3 uid="uid://b38fv8ebxh62y"]
 
 [ext_resource type="Script" path="res://Player.gd" id="2"]
 [ext_resource type="PackedScene" uid="uid://c7jof21gvvmq5" path="res://Projectiles/Melee Hurtbox.tscn" id="3"]
@@ -18,6 +18,22 @@ size = Vector2(114, 130)
 [sub_resource type="CanvasItemMaterial" id="9"]
 
 [sub_resource type="Theme" id="5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nbxiq"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.405412, 0.871389, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cik1c"]
+bg_color = Color(0.290196, 0.8, 0, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.34792, 0.879276, 1, 1)
 
 [node name="Player" type="CharacterBody2D"]
 material = SubResource("8")
@@ -57,16 +73,19 @@ material = SubResource("9")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -45.0
-offset_top = -73.0
-offset_right = 335.0
-offset_bottom = -46.0
+offset_left = -54.0
+offset_top = -80.0
+offset_right = 471.0
+offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.2, 0.2)
 theme = SubResource("5")
+theme_override_styles/background = SubResource("StyleBoxFlat_nbxiq")
+theme_override_styles/fill = SubResource("StyleBoxFlat_cik1c")
 max_value = 20.0
 value = 20.0
+show_percentage = false
 
 [node name="PkmnGUN2" type="Marker2D" parent="."]
 position = Vector2(-61, 0)

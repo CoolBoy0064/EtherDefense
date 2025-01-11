@@ -10,7 +10,7 @@ signal died()
 @export var speed = Vector2(200, 1000)
 @export var gravity = 1600
 @export var Health = 50
-@export var damage = 0
+@export var damage = 10
 var direction = -1
 var wall = 0
 var iFrames = 0
@@ -51,13 +51,6 @@ func _physics_process(delta):
 func _ready():
 	pass # Replace with function body.
 
-
-func _on_PlayerDetector_body_entered(body: Actor) -> void:
-	Health -= body.get_Damage()
-	
-	if Health <= 0:
-		queue_free()
-
 func handle_hit(dmg):
 	if iFrames == 0:
 		Health -= dmg
@@ -66,3 +59,8 @@ func handle_hit(dmg):
 		if Health <= 0:
 			emit_signal("died")
 			queue_free()
+
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	if body.has_method("handle_hit"):
+		body.handle_hit(damage)
