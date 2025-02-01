@@ -6,10 +6,10 @@ signal gunFired(bullet, position, direction)
 
 
 @export var speed = Vector2(200, 1000)
-@export var gravity = 1600
+@export var gravity = 1500
 @export var Health = 50
 @export var damage = 0
-var jumpForce : int = 600
+var jumpForce : int = 700
 var isDashing = 0
 var wallJump = 0
 var wallJumpT = 0
@@ -27,7 +27,6 @@ var shieldUpInstance
 @export var ShieldUp: PackedScene
 
 
-@onready var sprite : Sprite2D = get_node("Sprite2D")
 @onready var gun = $PkmnGUN
 @onready var gun2 = $PkmnGUN2
 @onready var HPBar = $HealthBar
@@ -46,7 +45,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		swing()
 	if event.is_action_pressed("Secondary") and !isShieldUp:
 		if(currentWeapon == 1):
-			shoot()
+			$AnimationPlayer.play("Shoot")
 		elif currentWeapon == 2:
 			shieldUp()
 	if event.is_action_pressed("Switch") and !isShieldUp:
@@ -89,22 +88,22 @@ func _physics_process(delta):
 	if iFrames > 0:
 		iFrames += 1
 		if iFrames % 10 == 0 and iFrames % 20 != 0:
-			sprite.hide()
+			$Sprite.hide()
 		elif iFrames % 20 == 0:
-			sprite.show()
+			$Sprite.show()
 		if iFrames > 60:
 			iFrames = 0
-			sprite.show()
+			$Sprite.show()
 	
 	
 	
 	
 	if velocity.x > 0 and lookLeft and !isShieldUp and !wallJump:
-		sprite.flip_h = false
+		$Sprite.flip_h = false
 		lookLeft = 0
 		
 	elif velocity.x < 0 and !lookLeft and !isShieldUp and !wallJump:
-		sprite.flip_h = true
+		$Sprite.flip_h = true
 		lookLeft = 1
 	
 
