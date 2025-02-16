@@ -95,3 +95,4 @@ position = Vector2(2210, -78)
 
 [node name="Gem" parent="." instance=ExtResource("8_h8dl0")]
 position = Vector2(-173, 47)
+Health = 50
