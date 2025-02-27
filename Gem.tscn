@@ -1,0 +1,71 @@
+[gd_scene load_steps=9 format=3 uid="uid://dv3u66qx3ydv4"]
+
+[ext_resource type="Script" path="res://gem.gd" id="1_6f5wp"]
+[ext_resource type="Texture2D" uid="uid://rqq8tc3372x" path="res://Textures/Giant Ruby.png" id="2_4i5dw"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4fvhy"]
+radius = 52.0
+height = 144.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5m260"]
+size = Vector2(107, 151)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_dq0qi"]
+
+[sub_resource type="Theme" id="Theme_t4fpn"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0l7up"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yqarx"]
+bg_color = Color(0.290196, 0.8, 0, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.403922, 0.870588, 1, 1)
+
+[node name="Gem" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 31
+script = ExtResource("1_6f5wp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -1)
+shape = SubResource("CapsuleShape2D_4fvhy")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(1.5, 1.5)
+shape = SubResource("RectangleShape2D_5m260")
+debug_color = Color(1, 0, 0, 0.419608)
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+light_mask = 1048575
+material = SubResource("CanvasItemMaterial_dq0qi")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -52.0
+offset_top = -91.0
+offset_right = 483.0
+offset_bottom = -21.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.2, 0.2)
+theme = SubResource("Theme_t4fpn")
+theme_override_styles/background = SubResource("StyleBoxFlat_0l7up")
+theme_override_styles/fill = SubResource("StyleBoxFlat_yqarx")
+max_value = 20.0
+value = 20.0
+show_percentage = false
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0.500001, -1.5)
+scale = Vector2(1.85938, 2.17188)
+texture = ExtResource("2_4i5dw")
+
+[node name="IFrameTimer" type="Timer" parent="."]
+wait_time = 0.5
+
+[connection signal="timeout" from="IFrameTimer" to="." method="_on_IFrameTimer_timeout"]

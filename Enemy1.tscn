@@ -1,0 +1,79 @@
+[gd_scene load_steps=9 format=3 uid="uid://bo6rpitye6eih"]
+
+[ext_resource type="Script" path="res://Enemy1.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://ddhqgtvngysl3" path="res://Textures/Enemy.png" id="2_30ybd"]
+
+[sub_resource type="RectangleShape2D" id="1"]
+size = Vector2(26, 26)
+
+[sub_resource type="RectangleShape2D" id="2"]
+size = Vector2(37.6667, 26)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_adwx2"]
+
+[sub_resource type="Theme" id="Theme_vxfmw"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_doonl"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.405412, 0.871389, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aa6q2"]
+bg_color = Color(1, 0.152941, 0.113725, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.34792, 0.879276, 1, 1)
+
+[node name="MeleeEnemy" type="CharacterBody2D"]
+scale = Vector2(3, 3)
+collision_layer = 4
+collision_mask = 15
+script = ExtResource("1")
+speed = Vector2(100, 1000)
+Health = 20
+damage = 4
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-2.38419e-07, 0)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_30ybd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 3)
+shape = SubResource("1")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0.166666, 3)
+shape = SubResource("2")
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+light_mask = 1048575
+material = SubResource("CanvasItemMaterial_adwx2")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -19.0
+offset_top = 17.0
+offset_right = 171.0
+offset_bottom = 39.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.2, 0.2)
+theme = SubResource("Theme_vxfmw")
+theme_override_styles/background = SubResource("StyleBoxFlat_doonl")
+theme_override_styles/fill = SubResource("StyleBoxFlat_aa6q2")
+max_value = 20.0
+value = 20.0
+show_percentage = false
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]

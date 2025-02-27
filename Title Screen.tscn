@@ -1,0 +1,82 @@
+[gd_scene load_steps=6 format=3 uid="uid://ich3l8imdyi0"]
+
+[ext_resource type="Script" path="res://MainMenu.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://xxmb1q3y145g" path="res://Background.png" id="2_ly2wx"]
+[ext_resource type="Theme" uid="uid://172w2bxq0x0l" path="res://Button.tres" id="3_8jfv3"]
+[ext_resource type="FontFile" uid="uid://cv8vdx4kjn3lx" path="res://COOPBL.TTF" id="4_pj1vv"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_qvqqe"]
+font = ExtResource("4_pj1vv")
+font_size = 46
+font_color = Color(0.555013, 0.849787, 1, 1)
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 14
+shadow_color = Color(0, 0.870588, 1, 0.290196)
+shadow_offset = Vector2(2, 1)
+
+[node name="Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 1154.0
+offset_top = 649.0
+offset_right = 2307.0
+offset_bottom = 1673.0
+rotation = -3.14127
+texture = ExtResource("2_ly2wx")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 415.0
+offset_top = 197.0
+offset_right = 735.0
+offset_bottom = 349.0
+
+[node name="NewGameButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_8jfv3")
+text = "New Game"
+
+[node name="OldGameButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_8jfv3")
+text = "Load Game"
+
+[node name="Button" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_8jfv3")
+text = "Settings"
+
+[node name="QuitButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_8jfv3")
+text = "Quit"
+
+[node name="LvlSelectButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_8jfv3")
+text = "Level Select"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 416.0
+offset_top = 115.0
+offset_right = 743.0
+offset_bottom = 169.0
+text = "Ether Defense"
+label_settings = SubResource("LabelSettings_qvqqe")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(552, 283)
+
+[connection signal="pressed" from="VBoxContainer/NewGameButton" to="." method="_on_NewGameButton_pressed"]
+[connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="_on_QuitButton_pressed"]
+[connection signal="pressed" from="VBoxContainer/LvlSelectButton" to="." method="_on_lvl_select_button_pressed"]

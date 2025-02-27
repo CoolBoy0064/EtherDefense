@@ -1,0 +1,67 @@
+[gd_scene load_steps=7 format=3 uid="uid://dfh4bcgrkybs3"]
+
+[ext_resource type="Texture2D" uid="uid://xxmb1q3y145g" path="res://Background.png" id="1_47of1"]
+[ext_resource type="Script" path="res://lvl_select.gd" id="1_oxa0b"]
+[ext_resource type="FontFile" uid="uid://cv8vdx4kjn3lx" path="res://COOPBL.TTF" id="2_vccrk"]
+[ext_resource type="Theme" uid="uid://172w2bxq0x0l" path="res://Button.tres" id="3_hlmwr"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_q5w6y"]
+font = ExtResource("2_vccrk")
+font_size = 46
+font_color = Color(0.556863, 0.85098, 1, 1)
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 14
+shadow_color = Color(0, 0.870588, 1, 0.290196)
+
+[sub_resource type="Theme" id="Theme_0hqys"]
+/colors/font_color = Color(0.309804, 1, 1, 1)
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_oxa0b")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 456.0
+offset_top = 2.0
+offset_right = 1480.0
+offset_bottom = 1068.0
+texture = ExtResource("1_47of1")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(962, 542)
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 783.0
+offset_top = 354.0
+offset_right = 1141.0
+offset_bottom = 424.0
+text = "SELECT LEVEL"
+label_settings = SubResource("LabelSettings_q5w6y")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 815.0
+offset_top = 511.0
+offset_right = 1112.0
+offset_bottom = 581.0
+theme = SubResource("Theme_0hqys")
+
+[node name="Level 1" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_hlmwr")
+text = "LEVEL 1"
+
+[node name="Level 2" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_hlmwr")
+text = "LEVEL 2"
+
+[connection signal="pressed" from="VBoxContainer/Level 1" to="." method="_on_level_1_pressed"]
