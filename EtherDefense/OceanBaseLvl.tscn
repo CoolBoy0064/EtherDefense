@@ -1,13 +1,9 @@
-[gd_scene load_steps=16 format=4 uid="uid://bxxx34vy8v0ej"]
+[gd_scene load_steps=12 format=4 uid="uid://bxxx34vy8v0ej"]
 
 [ext_resource type="PackedScene" uid="uid://b38fv8ebxh62y" path="res://Player.tscn" id="2_prpp0"]
 [ext_resource type="Texture2D" uid="uid://086fmvnnci58" path="res://Textures/OceanBaseTile.png" id="2_rs1b8"]
 [ext_resource type="Texture2D" uid="uid://dvu20hi6182b2" path="res://Textures/OceanBaseBG2.png" id="3_ao3kd"]
 [ext_resource type="Texture2D" uid="uid://c5jvrpx37ifft" path="res://Textures/OceanBaseBG1.png" id="4_wlb7g"]
-[ext_resource type="PackedScene" uid="uid://d0v2eqbe6pviy" path="res://brute.tscn" id="5_xqls6"]
-[ext_resource type="PackedScene" uid="uid://b1tp87d71nlpw" path="res://ShooterEnemy.tscn" id="6_adgb8"]
-[ext_resource type="PackedScene" uid="uid://c52hevvnchkt5" path="res://wall_of_light.tscn" id="6_yjdni"]
-[ext_resource type="PackedScene" uid="uid://bwteg7ognsle" path="res://Turret.tscn" id="7_mnowk"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_n2je3"]
 texture = ExtResource("2_rs1b8")
@@ -2653,7 +2649,7 @@ tile_map_data = PackedByteArray("AADQ/1YAAAAIAAAAAADQ/1cAAAAIAAEAAADQ/1gAAAAIAAI
 tile_set = SubResource("TileSet_5fidb")
 
 [node name="Player" parent="." instance=ExtResource("2_prpp0")]
-position = Vector2(66, 1262)
+position = Vector2(1136, 1050)
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
@@ -2693,26 +2689,3 @@ shape = SubResource("SegmentShape2D_hgh63")
 
 [node name="CollisionShape2D4" type="CollisionShape2D" parent="Slopes"]
 shape = SubResource("SegmentShape2D_iop2m")
-
-[node name="WallOfLight" parent="." instance=ExtResource("6_yjdni")]
-position = Vector2(2116, 1248)
-
-[node name="Enemy2" parent="." instance=ExtResource("6_adgb8")]
-position = Vector2(2754, 1337)
-
-[node name="Turret" parent="." instance=ExtResource("7_mnowk")]
-position = Vector2(2001, 1342)
-
-[node name="Turret2" parent="." instance=ExtResource("7_mnowk")]
-position = Vector2(-111, 1341)
-start_scale = -1
-
-[node name="WallOfLight2" parent="." instance=ExtResource("6_yjdni")]
-position = Vector2(631, 1121)
-start_scale = -1
-
-[node name="Brute" parent="." instance=ExtResource("5_xqls6")]
-position = Vector2(-344, 1037)
-starting_direction = 1
-Health = 100
-MAX_HEALTH = 100

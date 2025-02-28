@@ -20,6 +20,7 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = 14.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1")
@@ -60,17 +61,23 @@ layout_mode = 2
 theme = ExtResource("3_8jfv3")
 text = "Quit"
 
+[node name="LvlSelect" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_8jfv3")
+text = "Level Select"
+
 [node name="Label" type="Label" parent="."]
 layout_mode = 0
 offset_left = 416.0
-offset_top = 115.0
+offset_top = 91.0
 offset_right = 743.0
-offset_bottom = 169.0
+offset_bottom = 151.0
 text = "Ether Defense"
 label_settings = SubResource("LabelSettings_qvqqe")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(552, 283)
+position = Vector2(596, 137)
 
 [connection signal="pressed" from="VBoxContainer/NewGameButton" to="." method="_on_NewGameButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="_on_QuitButton_pressed"]
+[connection signal="pressed" from="VBoxContainer/LvlSelect" to="." method="_on_lvl_select_pressed"]

@@ -30,6 +30,15 @@ var shieldUpInstance
 @onready var gun = $PkmnGUN
 @onready var gun2 = $PkmnGUN2
 @onready var HPBar = $HealthBar
+
+
+func _on_EnemyDetector_body_entered(body: Actor) -> void:
+	if(iFrames == 0):
+		Health -= body.get_Damage()
+		HPBar.value = Health
+		iFrames = 1
+	if Health <= 0:
+		queue_free()
 		
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("attack") and !isShieldUp:
@@ -197,3 +206,4 @@ func handle_hit(dabledge):
 		iFrames = 1
 	if Health <= 0:
 		queue_free()
+		get_tree().change_scene_to_file('res://GameOver.tscn')
