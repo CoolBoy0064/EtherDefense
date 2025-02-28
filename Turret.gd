@@ -2,10 +2,13 @@ extends CharacterBody2D
 
 signal Turret_Shot(bullet, position, direction, damage)
 
+
 @export var speed = Vector2(0, 0)
 @export var gravity = 1600
 @export var Health = 50
 @export var damage = 0
+@export var start_scale = 1 #if set to -1 the turret will start fliped
+@export var MAX_HEALTH = 50
 var shooting = 0
 var shootCooldown = 0
 var enemies = 0
@@ -13,6 +16,8 @@ var target = Vector2()
 var current_enemy
 var next_enemy 
 var lookleft = 0
+
+
 @export var Bullet: PackedScene
 
 
@@ -26,8 +31,8 @@ var lookleft = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	print (gun.global_position)
-	print (global_position)
+	if start_scale == -1:
+		flip_turret()
 
 func _physics_process(delta: float) -> void:
 	if shooting:
@@ -67,6 +72,14 @@ func shoot():
 	bullet_instance.set_damage(10)
 	
 
+func handle_hit(damage):
+	Health = Health - damage
+	$HealthBar.value = (Health / float(MAX_HEALTH)) * 100
+	if(Health <= 0):
+		destroy()
+
+func destroy():
+	queue_free()
 
 func _on_Area2D_body_exited(body: Node) -> void:
 	enemies -= 1
@@ -79,3 +92,10 @@ func new_target():
 		shooting = 0
 	else:
 		current_enemy = next_enemy
+		
+func flip_turret():
+	if scale.x == 1:
+		scale.x = -1
+	else:
+		scale.x = 1
+	
