@@ -206,4 +206,4 @@ func handle_hit(dabledge):
 		iFrames = 1
 	if Health <= 0:
 		queue_free()
-		get_tree().change_scene_to_file('res://Game OVer.tscn')
+		get_tree().change_scene_to_file('res://GameOver.tscn')
