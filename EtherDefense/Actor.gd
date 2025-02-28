@@ -8,13 +8,14 @@ const FLOOR_NORMAL: =Vector2.UP
 @export var speed = Vector2(200, 1000)
 @export var gravity = 1600
 @export var Health = 50
+@export var MAX_HEALTH = 50
 @export var damage = 0
 @export var isEnemy = false
 @export var isPlayer = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	Health = MAX_HEALTH
 
 func get_Damage():
 	return damage

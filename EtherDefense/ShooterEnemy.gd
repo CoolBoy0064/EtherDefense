@@ -8,7 +8,7 @@ var next_enemy
 var lookLeft = 1
 var direction = -1
 var wall = 0
-var iFrames = 0
+var stop = false;
 @onready var sprite : Sprite2D = get_node("Sprite2D")
 @onready var HPBar = $HealthBar
 @export var Bullet: PackedScene
@@ -19,47 +19,50 @@ var iFrames = 0
 @onready var detector = $Area2D/CollisionShape2D
 
 
+# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
 	if shooting:
 		if shootCooldown <= 0:
 			shoot()
 			shootCooldown = 60
 		shootCooldown -= 1
-	
-	if iFrames > 0:
-		iFrames += 1
-		if iFrames > 15:
-			iFrames = 0
+
+	if(!stop):
 	
 	
-	velocity.x = speed.x * direction
+		velocity.x = speed.x * direction
 	
-	velocity.y += gravity * delta
+		velocity.y += gravity * delta
 	
-	if velocity.x < 0:
-		sprite.flip_h = false
-	elif velocity.x > 0:
-		sprite.flip_h = true
+		if velocity.x < 0:
+			sprite.flip_h = false
+		elif velocity.x > 0:
+			sprite.flip_h = true
 		
 		
-	if is_on_wall() && wall == 0:
-		wall = 1
-		direction *= -1
-	elif !is_on_wall():
-		wall = 0
+		if is_on_wall() && wall == 0:
+			wall = 1
+			direction *= -1
+		elif !is_on_wall():
+			wall = 0
 		
 		
-	set_velocity(velocity)
-	set_up_direction(Vector2.UP)
-	move_and_slide()
-	velocity.y = velocity.y
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta: float) -> void:
-#	pass
+		set_velocity(velocity)
+		set_up_direction(Vector2.UP)
+		move_and_slide()
+		velocity.y = velocity.y
+	else:
+		velocity.x = 0
+		velocity.y += gravity * delta
+		set_velocity(velocity)
+		set_up_direction(Vector2.UP)
+		move_and_slide()
 
 
 func _on_Area2D_body_entered(body: Node) -> void:
 	shooting = 1
+	stop = true
+	enemies = enemies + 1
 
 func shoot():
 	var bullet_instance = Bullet.instantiate()
@@ -83,10 +86,17 @@ func new_target():
 		current_enemy = next_enemy
 		
 func handle_hit(Dablege):
-	if iFrames == 0:
-		Health -= Dablege
-		iFrames += 1
-		HPBar.value = Health
-		if Health <= 0:
-			emit_signal("died")
-			queue_free()
+	Health -= Dablege
+	HPBar.value = (Health / float(MAX_HEALTH)) * 100
+	if Health <= 0:
+		emit_signal("died")
+		queue_free()
+
+
+func _on_area_2d_body_exited(body: Node2D) -> void:
+	enemies = enemies - 1
+	if enemies <= 0:
+		shooting = 0
+		stop = false
+		if enemies < 0:
+			enemies = 0 #fail safe, enemies should never be negative
