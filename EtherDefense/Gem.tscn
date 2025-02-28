@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://dv3u66qx3ydv4"]
 
 [ext_resource type="Script" path="res://gem.gd" id="1_6f5wp"]
-[ext_resource type="Texture2D" uid="uid://bb3ynpd5ciy22" path="res://Textures/Ruby.png" id="2_4i5dw"]
+[ext_resource type="Texture2D" uid="uid://rqq8tc3372x" path="res://Textures/Giant Ruby.png" id="2_4i5dw"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4fvhy"]
 radius = 52.0
@@ -61,6 +61,8 @@ value = 20.0
 show_percentage = false
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0.500001, -1.5)
+scale = Vector2(1.85938, 2.10938)
 texture = ExtResource("2_4i5dw")
 
 [node name="IFrameTimer" type="Timer" parent="."]
