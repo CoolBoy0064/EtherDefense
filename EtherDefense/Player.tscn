@@ -160,9 +160,8 @@ _data = {
 [node name="Player" type="CharacterBody2D"]
 material = SubResource("8")
 collision_layer = 2
-collision_mask = 31
+collision_mask = 29
 script = ExtResource("2")
-Health = 20
 damage = 10
 Bullet = ExtResource("4")
 Melee = ExtResource("3")
@@ -207,8 +206,8 @@ scale = Vector2(0.2, 0.2)
 theme = SubResource("5")
 theme_override_styles/background = SubResource("StyleBoxFlat_nbxiq")
 theme_override_styles/fill = SubResource("StyleBoxFlat_cik1c")
-max_value = 20.0
-value = 20.0
+max_value = 50.0
+value = 50.0
 show_percentage = false
 
 [node name="PkmnGUN2" type="Marker2D" parent="."]

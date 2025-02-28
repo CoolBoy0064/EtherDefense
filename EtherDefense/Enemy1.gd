@@ -37,7 +37,7 @@ func _physics_process(delta):
 		
 	if is_on_wall() && wall == 0:
 		wall = 1
-		direction *= -1
+		velocity.y = -velocity.x
 	elif !is_on_wall():
 		wall = 0
 		
