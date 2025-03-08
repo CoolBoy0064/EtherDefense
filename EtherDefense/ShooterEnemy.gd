@@ -9,6 +9,7 @@ var lookLeft = 1
 var direction = -1
 var wall = 0
 var stop = false;
+@export var starting_direction = 1
 @onready var sprite : Sprite2D = get_node("Sprite2D")
 @onready var HPBar = $HealthBar
 @export var Bullet: PackedScene
@@ -18,7 +19,9 @@ var stop = false;
 @onready var gun2 = $Gun2
 @onready var detector = $Area2D/CollisionShape2D
 
-
+func _ready() -> void:
+	if starting_direction != 1:
+		change_direction()
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
 	if shooting:
@@ -100,3 +103,8 @@ func _on_area_2d_body_exited(body: Node2D) -> void:
 		stop = false
 		if enemies < 0:
 			enemies = 0 #fail safe, enemies should never be negative
+			
+func change_direction():
+	direction = direction * -1
+	lookLeft = !lookLeft
+	$Area2D/CollisionShape2D.position.x = $Area2D/CollisionShape2D.position.x * -1
