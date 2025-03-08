@@ -1,0 +1,10 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://3ju0s8st4ldj"]
+
+[ext_resource type="FontFile" uid="uid://cv8vdx4kjn3lx" path="res://COOPBL.TTF" id="1_lu7f4"]
+
+[resource]
+font = ExtResource("1_lu7f4")
+font_size = 24
+font_color = Color(0, 0.882353, 1, 1)
+outline_size = 6
+outline_color = Color(0, 0, 0.694118, 1)
