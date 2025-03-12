@@ -13,8 +13,6 @@ func handle_hit(damage):
 		destroy()
 	
 	
-func _ready() -> void:
-	scale.x = start_scale
 	
 func _physics_process(delta):
 	velocity.y += gravity * delta
@@ -24,3 +22,9 @@ func _physics_process(delta):
 # Add code for the tower to explode later
 func destroy():
 	queue_free()
+
+func flip_tower():
+	if scale.x == 1:
+		$AnimatedSprite2D.flip_h = false
+	else:
+		$AnimatedSprite2D.flip_h = true

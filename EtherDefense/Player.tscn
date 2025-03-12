@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://b38fv8ebxh62y"]
+[gd_scene load_steps=28 format=3 uid="uid://b38fv8ebxh62y"]
 
 [ext_resource type="Script" path="res://Player.gd" id="2"]
 [ext_resource type="PackedScene" uid="uid://c7jof21gvvmq5" path="res://Projectiles/Melee Hurtbox.tscn" id="3"]
@@ -7,6 +7,11 @@
 [ext_resource type="PackedScene" uid="uid://bpcp15pejsahi" path="res://Projectiles/ShieldUp.tscn" id="6"]
 [ext_resource type="Texture2D" uid="uid://bturt4jpyvrix" path="res://Textures/Player Sprites/GunAttck.png" id="6_deu00"]
 [ext_resource type="Texture2D" uid="uid://cwje2jnrpagu4" path="res://Textures/Player Sprites/PlayerIdle-export.png" id="6_gk6m8"]
+[ext_resource type="LabelSettings" uid="uid://3ju0s8st4ldj" path="res://RespawnSettings.tres" id="8_tgje5"]
+[ext_resource type="Script" path="res://build_menu.gd" id="9_bkhlj"]
+[ext_resource type="PackedScene" uid="uid://bwteg7ognsle" path="res://Turret.tscn" id="10_jj0uu"]
+[ext_resource type="Theme" uid="uid://172w2bxq0x0l" path="res://Button.tres" id="11_4aatc"]
+[ext_resource type="PackedScene" uid="uid://c52hevvnchkt5" path="res://wall_of_light.tscn" id="11_buoyy"]
 
 [sub_resource type="CanvasItemMaterial" id="8"]
 
@@ -160,9 +165,8 @@ _data = {
 [node name="Player" type="CharacterBody2D"]
 material = SubResource("8")
 collision_layer = 2
-collision_mask = 31
+collision_mask = 29
 script = ExtResource("2")
-Health = 20
 damage = 10
 Bullet = ExtResource("4")
 Melee = ExtResource("3")
@@ -207,8 +211,8 @@ scale = Vector2(0.2, 0.2)
 theme = SubResource("5")
 theme_override_styles/background = SubResource("StyleBoxFlat_nbxiq")
 theme_override_styles/fill = SubResource("StyleBoxFlat_cik1c")
-max_value = 20.0
-value = 20.0
+max_value = 50.0
+value = 50.0
 show_percentage = false
 
 [node name="PkmnGUN2" type="Marker2D" parent="."]
@@ -219,4 +223,90 @@ libraries = {
 "": SubResource("AnimationLibrary_65omn")
 }
 
+[node name="RespawnText" type="Label" parent="."]
+visible = false
+z_index = 4000
+offset_left = -97.0
+offset_top = -139.0
+offset_right = 52.0
+offset_bottom = -109.0
+text = "Respawn in:"
+label_settings = ExtResource("8_tgje5")
+
+[node name="RespawnTimer" type="Label" parent="."]
+visible = false
+z_index = 4000
+offset_left = 58.0
+offset_top = -139.0
+offset_right = 98.0
+offset_bottom = -110.0
+text = "10
+"
+label_settings = ExtResource("8_tgje5")
+
+[node name="Fundamentals" type="Label" parent="."]
+z_index = 4000
+offset_left = -930.0
+offset_top = -521.0
+offset_right = -848.0
+offset_bottom = -492.0
+text = "Funds:"
+label_settings = ExtResource("8_tgje5")
+
+[node name="Label" type="Label" parent="Fundamentals"]
+layout_mode = 0
+offset_left = 86.0
+offset_top = 2.0
+offset_right = 126.0
+offset_bottom = 31.0
+label_settings = ExtResource("8_tgje5")
+
+[node name="Build_Menu" type="Control" parent="."]
+visible = false
+z_index = 4000
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("9_bkhlj")
+Tower1 = ExtResource("10_jj0uu")
+Tower2 = ExtResource("11_buoyy")
+
+[node name="Turret" type="Button" parent="Build_Menu"]
+layout_mode = 0
+offset_left = -54.0
+offset_top = -126.0
+offset_right = 56.0
+offset_bottom = -99.0
+theme = ExtResource("11_4aatc")
+text = "Place Turret"
+
+[node name="Placement_spot" type="Marker2D" parent="Build_Menu"]
+position = Vector2(100, 65)
+
+[node name="Placement_spot2" type="Marker2D" parent="Build_Menu"]
+position = Vector2(-100, 65)
+
+[node name="Wall" type="Button" parent="Build_Menu"]
+layout_mode = 0
+offset_left = 69.0
+offset_top = -125.0
+offset_right = 231.0
+offset_bottom = -98.0
+theme = ExtResource("11_4aatc")
+text = "Place Wall Of Light"
+
+[node name="Exit" type="Button" parent="Build_Menu"]
+layout_mode = 0
+offset_left = -138.0
+offset_top = -128.0
+offset_right = -75.0
+offset_bottom = -97.0
+theme = ExtResource("11_4aatc")
+text = "Cancel
+"
+
 [connection signal="body_entered" from="EnemyDetector" to="." method="_on_EnemyDetector_body_entered"]
+[connection signal="pressed" from="Build_Menu/Turret" to="Build_Menu" method="_on_turret_pressed"]
+[connection signal="pressed" from="Build_Menu/Wall" to="Build_Menu" method="_on_wall_pressed"]
+[connection signal="pressed" from="Build_Menu/Exit" to="Build_Menu" method="_on_exit_pressed"]

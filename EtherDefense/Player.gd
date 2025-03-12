@@ -9,6 +9,9 @@ signal gunFired(bullet, position, direction)
 @export var gravity = 1500
 @export var Health = 50
 @export var damage = 0
+@export var MAX_HEALTH = 50
+@export var respawn_timer = 10 #time in seconds the player will remain dead
+var respawn_time = 0
 var jumpForce : int = 700
 var isDashing = 0
 var wallJump = 0
@@ -21,6 +24,8 @@ var currentWeapon = 1
 var shieldActive = 0
 var isShieldUp = false
 var shieldUpInstance
+var dead = false
+var spawn_position
 @export var Bullet: PackedScene
 @export var Melee: PackedScene
 @export var Shield: PackedScene
@@ -30,15 +35,6 @@ var shieldUpInstance
 @onready var gun = $PkmnGUN
 @onready var gun2 = $PkmnGUN2
 @onready var HPBar = $HealthBar
-
-
-func _on_EnemyDetector_body_entered(body: Actor) -> void:
-	if(iFrames == 0):
-		Health -= body.get_Damage()
-		HPBar.value = Health
-		iFrames = 1
-	if Health <= 0:
-		queue_free()
 		
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("attack") and !isShieldUp:
@@ -60,40 +56,49 @@ func _unhandled_input(event: InputEvent) -> void:
 		shield()
 	if event.is_action_pressed("ui_pause"):
 		get_tree().change_scene_to_file("res://Title Screen.tscn")
+	if event.is_action_pressed("spawn_tower"):
+		$Build_Menu.show()
 		
 	
 
 func _physics_process(delta):
 	
 	#Jumping and gravity
+	if (!dead):
+		if Input.is_action_just_pressed("jump") and is_on_wall() and !shieldActive and !is_on_floor() and !wallJump:
+			if Input.is_action_pressed("dash"):
+				isDashing = 1
+			wallJump = 1
+			direction.x = -direction.x
+		is_jump_interrupted = Input.is_action_just_released("jump") and velocity.y < 0
+		direction = get_direction(wallJump)
+		velocity = calculate_move_velocity(velocity,direction, speed, is_jump_interrupted, wallJump)
+		set_velocity(velocity)
+		move_and_slide()
+		velocity = velocity
 	
-	if Input.is_action_just_pressed("jump") and is_on_wall() and !shieldActive and !is_on_floor() and !wallJump:
-		if Input.is_action_pressed("dash"):
-			isDashing = 1
-		wallJump = 1
-		direction.x = -direction.x
-	is_jump_interrupted = Input.is_action_just_released("jump") and velocity.y < 0
-	direction = get_direction(wallJump)
-	velocity = calculate_move_velocity(velocity,direction, speed, is_jump_interrupted, wallJump)
-	set_velocity(velocity)
-	move_and_slide()
-	velocity = velocity
-	
-	if wallJump:
-		wallJumpT += 1
-		if wallJumpT == 12:
-			wallJump = 0
-			wallJumpT = 0
+		if wallJump:
+			wallJumpT += 1
+			if wallJumpT == 12:
+				wallJump = 0
+				wallJumpT = 0
 			
-	if iFrames > 0:
-		iFrames += 1
-		if iFrames % 10 == 0 and iFrames % 20 != 0:
-			$Sprite.hide()
-		elif iFrames % 20 == 0:
-			$Sprite.show()
-		if iFrames > 60:
-			iFrames = 0
-			$Sprite.show()
+		if iFrames > 0:
+			iFrames += 1
+			if iFrames % 10 == 0 and iFrames % 20 != 0:
+				$Sprite.hide()
+			elif iFrames % 20 == 0:
+				$Sprite.show()
+			if iFrames > 60:
+				iFrames = 0
+				$Sprite.show()
+	else:
+		respawn_time = respawn_time + delta
+		$RespawnTimer.text = str(round(10 - respawn_time))
+		if (respawn_time >= respawn_timer):
+			respawn_time = 0
+			respawn()
+			
 	
 	
 	
@@ -111,7 +116,9 @@ func _physics_process(delta):
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	update_HUD()
+	spawn_position = global_position
+	HPBar.max_value = MAX_HEALTH
 
 
 func get_direction(wallJump: bool) -> Vector2:
@@ -205,5 +212,32 @@ func handle_hit(dabledge):
 		HPBar.value = Health
 		iFrames = 1
 	if Health <= 0:
-		queue_free()
-		get_tree().change_scene_to_file('res://GameOver.tscn')
+		die()
+		
+func die():
+	$Sprite.hide()
+	$HealthBar.hide()
+	global_position = spawn_position
+	dead = true
+	$RespawnText.show()
+	$RespawnTimer.show()
+	$CollisionShape2D.disabled = true
+	
+func respawn():
+	Health = MAX_HEALTH
+	HPBar.value = Health
+	$Sprite.show()
+	$HealthBar.show()
+	dead = false
+	$RespawnText.hide()
+	$RespawnTimer.hide()
+	$CollisionShape2D.disabled = false
+	
+	
+func update_HUD():
+	$Fundamentals/Label.text = str($Build_Menu.fundamentals)
+	
+	
+func add_funds(funds):
+	$Build_Menu.add_funds(funds)
+	
