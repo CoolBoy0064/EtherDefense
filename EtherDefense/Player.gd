@@ -56,6 +56,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		shield()
 	if event.is_action_pressed("ui_pause"):
 		get_tree().change_scene_to_file("res://Title Screen.tscn")
+	if event.is_action_pressed("spawn_tower"):
+		$Build_Menu.show()
 		
 	
 
@@ -114,6 +116,7 @@ func _physics_process(delta):
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	update_HUD()
 	spawn_position = global_position
 	HPBar.max_value = MAX_HEALTH
 
@@ -218,6 +221,7 @@ func die():
 	dead = true
 	$RespawnText.show()
 	$RespawnTimer.show()
+	$CollisionShape2D.disabled = true
 	
 func respawn():
 	Health = MAX_HEALTH
@@ -227,3 +231,13 @@ func respawn():
 	dead = false
 	$RespawnText.hide()
 	$RespawnTimer.hide()
+	$CollisionShape2D.disabled = false
+	
+	
+func update_HUD():
+	$Fundamentals/Label.text = str($Build_Menu.fundamentals)
+	
+	
+func add_funds(funds):
+	$Build_Menu.add_funds(funds)
+	

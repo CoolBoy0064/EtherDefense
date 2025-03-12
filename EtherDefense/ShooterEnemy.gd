@@ -1,5 +1,7 @@
 extends Actor
 
+signal died
+
 var shooting = 0
 var shootCooldown = 0
 var enemies = 0
@@ -9,6 +11,8 @@ var lookLeft = 1
 var direction = -1
 var wall = 0
 var stop = false;
+@export var drop : PackedScene
+@export var drop_count = 1
 @export var starting_direction = 1
 @onready var sprite : Sprite2D = get_node("Sprite2D")
 @onready var HPBar = $HealthBar
@@ -20,6 +24,7 @@ var stop = false;
 @onready var detector = $Area2D/CollisionShape2D
 
 func _ready() -> void:
+	apply_floor_snap()
 	if starting_direction != 1:
 		change_direction()
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -93,7 +98,7 @@ func handle_hit(Dablege):
 	HPBar.value = (Health / float(MAX_HEALTH)) * 100
 	if Health <= 0:
 		emit_signal("died")
-		queue_free()
+		destroy()
 
 
 func _on_area_2d_body_exited(body: Node2D) -> void:
@@ -108,3 +113,15 @@ func change_direction():
 	direction = direction * -1
 	lookLeft = !lookLeft
 	$Area2D/CollisionShape2D.position.x = $Area2D/CollisionShape2D.position.x * -1
+	
+func destroy():
+	for xn in drop_count:
+		call_deferred("create_drop", xn)
+	queue_free()
+
+#ISSUE: drops get created slightly in the ground for the enemy that uses this files, will probably hardcode position later
+func create_drop(xn):
+		var drop_instance = drop.instantiate()
+		get_tree().get_root().add_child(drop_instance)
+		drop_instance.global_position = global_position
+		drop_instance.global_position.x = drop_instance.global_position.x + (xn * 20)

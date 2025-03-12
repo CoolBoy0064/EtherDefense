@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://b482buce5qyfn"]
+
+[ext_resource type="Script" path="res://funds.gd" id="1_jrtue"]
+[ext_resource type="Texture2D" uid="uid://vlrhvbhguda2" path="res://Textures/Fundamentals.png" id="2_dwpbk"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_raofx"]
+size = Vector2(101, 51)
+
+[node name="Funds" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_jrtue")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(1, 0)
+texture = ExtResource("2_dwpbk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, 37.5)
+shape = SubResource("RectangleShape2D_raofx")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

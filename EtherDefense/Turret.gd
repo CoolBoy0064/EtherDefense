@@ -32,7 +32,7 @@ var lookleft = 0
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	if start_scale == -1:
-		flip_turret()
+		flip_tower()
 
 func _physics_process(delta: float) -> void:
 	if shooting:
@@ -58,6 +58,8 @@ func _on_Area2D_body_entered(body: Node) -> void:
 	print (enemies)
 
 func shoot():
+	if (!is_instance_valid(current_enemy)):
+		return #do nothing if the enemy were shooting does not exist
 	var bullet_instance = Bullet.instantiate()
 	get_tree().get_root().add_child(bullet_instance)
 	bullet_instance.global_position = gun.global_position
@@ -93,9 +95,15 @@ func new_target():
 	else:
 		current_enemy = next_enemy
 		
-func flip_turret():
+func flip_tower():
 	if scale.x == 1:
 		scale.x = -1
+		$HealthBar.scale.x = $HealthBar.scale.x * -1
+		$HealthBar.position.x = $HealthBar.position.x * -1
+		lookleft = true
 	else:
 		scale.x = 1
+		$HealthBar.scale.x = $HealthBar.scale.x * -1
+		$HealthBar.position.x = $HealthBar.position.x * -1
+		lookleft = false
 	

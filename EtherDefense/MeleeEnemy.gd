@@ -9,6 +9,8 @@ signal died()
 
 const flip_x = Vector2(-1, 0)
 
+@export var drop : PackedScene
+@export var drop_count = 1
 @export var starting_direction = -1 #affects the starting direction the enemy will go (-1 for left, 1 for right)
 @export var speed = Vector2(200, 1000)
 @export var gravity = 1600
@@ -25,6 +27,7 @@ var collision = false #Tracks if a collision has occured on the hurtbox
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	apply_floor_snap()
 	if starting_direction != -1:
 		change_direction()
 	$Area2D/CollisionShape2D.disabled = false
@@ -73,13 +76,24 @@ func _physics_process(delta):
 		
 		
 
+func destroy():
+	for xn in drop_count:
+		call_deferred("create_drop", xn)
+	queue_free()
+
+func create_drop(xn):
+		var drop_instance = drop.instantiate()
+		get_tree().get_root().add_child(drop_instance)
+		drop_instance.global_position = global_position
+		drop_instance.global_position.x = drop_instance.global_position.x + (xn * 20)
+
 
 func handle_hit(dmg):
 	Health -= dmg
 	HPBar.value = (Health / float(MAX_HEALTH)) * 100
 	if Health <= 0:
 		emit_signal("died")
-		queue_free()
+		destroy()
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
