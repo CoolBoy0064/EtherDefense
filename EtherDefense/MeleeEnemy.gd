@@ -7,25 +7,34 @@ extends CharacterBody2D
 
 signal died()
 
+const flip_x = Vector2(-1, 0)
+
+@export var drop : PackedScene
+@export var drop_count = 1
+@export var starting_direction = -1 #affects the starting direction the enemy will go (-1 for left, 1 for right)
 @export var speed = Vector2(200, 1000)
 @export var gravity = 1600
 @export var Health = 50
+@export var MAX_HEALTH = 50
 @export var damage = 10
-var attackSpeed = 1 #time in seconds this creature will take to finish its attack animation
+@export var attackSpeed = 1 #time in seconds this creature will take to finish its attack animation
 var attackInterval = 1 #time that has elapsed since the last attack 
 var direction = -1
 var wall = 0
-var iFrames = 0
 var stop = false;
 var collision = false #Tracks if a collision has occured on the hurtbox
 @onready var HPBar = $HealthBar
 
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	apply_floor_snap()
+	if starting_direction != -1:
+		change_direction()
+	$Area2D/CollisionShape2D.disabled = false
+	attackInterval = attackSpeed
+
 func _physics_process(delta):
 	
-	if iFrames > 0:
-		iFrames += 1
-		if iFrames > 15:
-			iFrames = 0
 	
 	if(!stop):
 		$AnimatedSprite2D.play("default")
@@ -51,36 +60,46 @@ func _physics_process(delta):
 		move_and_slide()
 		velocity.y = velocity.y
 	else:
-		if(attackInterval > attackSpeed && collision):
+		if(attackInterval > attackSpeed && collision && !$AnimationPlayer.is_playing()):
 			$AnimationPlayer.play("attack")
 			attackInterval = 0
 			collision = false
-		elif(attackInterval > attackSpeed && !collision):
+		elif(attackInterval > attackSpeed && !collision && !$AnimationPlayer.is_playing()):
 			stop = false #if we did not encounter a new collision after the previous animation, continue moving
 		attackInterval += delta
+		velocity.x = 0
+		velocity.y += gravity * delta
+		set_velocity(velocity)
+		set_up_direction(Vector2.UP)
+		move_and_slide()
 		
 		
 		
-	
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	$Area2D/CollisionShape2D.disabled = false
+
+func destroy():
+	for xn in drop_count:
+		call_deferred("create_drop", xn)
+	queue_free()
+
+func create_drop(xn):
+		var drop_instance = drop.instantiate()
+		get_tree().get_root().add_child(drop_instance)
+		drop_instance.global_position = global_position
+		drop_instance.global_position.x = drop_instance.global_position.x + (xn * 20)
+
 
 func handle_hit(dmg):
-	if iFrames == 0:
-		Health -= dmg
-		iFrames += 1
-		HPBar.value = Health
-		if Health <= 0:
-			emit_signal("died")
-			queue_free()
+	Health -= dmg
+	HPBar.value = (Health / float(MAX_HEALTH)) * 100
+	if Health <= 0:
+		emit_signal("died")
+		destroy()
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.has_method("handle_hit"):
 		body.handle_hit(damage)
 	stop = true
-	print("stopped")
 	collision = true
 
 
@@ -88,3 +107,11 @@ func _on_area_2d_body_exited(body: Node2D) -> void:
 	if(!$Area2D/CollisionShape2D.disabled):
 		stop = false
 		collision = false
+		
+func change_direction():
+	var current_position = $Area2D/CollisionShape2D.get_position()
+	$Area2D/CollisionShape2D.set_position(current_position * flip_x)
+	if direction == -1:
+		direction = 1
+	else:
+		direction = -1
