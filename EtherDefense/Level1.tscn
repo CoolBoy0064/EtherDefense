@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=4 uid="uid://cety0kg78aykn"]
+[gd_scene load_steps=14 format=4 uid="uid://cety0kg78aykn"]
 
 [ext_resource type="Texture2D" uid="uid://sviffo2knod" path="res://Textures/Tile.png" id="2"]
 [ext_resource type="PackedScene" uid="uid://b38fv8ebxh62y" path="res://Player.tscn" id="3_n6ljk"]
@@ -8,6 +8,9 @@
 [ext_resource type="Texture2D" uid="uid://dj5bmovw3gx4s" path="res://Textures/CityBackdrop.png" id="6_upvc6"]
 [ext_resource type="Texture2D" uid="uid://c781wks527jod" path="res://Textures/Stars-export.png" id="7_ci4ku"]
 [ext_resource type="PackedScene" uid="uid://dv3u66qx3ydv4" path="res://Gem.tscn" id="8_h8dl0"]
+[ext_resource type="PackedScene" uid="uid://dub64smmmrqbv" path="res://new_spawner.tscn" id="10_ghao7"]
+[ext_resource type="Script" path="res://new_spawner.gd" id="11_o0xp2"]
+[ext_resource type="PackedScene" uid="uid://6thl7vbhllc" path="res://scorpion.tscn" id="12_8bwxu"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_neybd"]
 texture = ExtResource("2")
@@ -95,3 +98,18 @@ position = Vector2(2210, -78)
 
 [node name="Gem" parent="." instance=ExtResource("8_h8dl0")]
 position = Vector2(-173, 47)
+
+[node name="NewSpawner" parent="." node_paths=PackedStringArray("spawn_points") instance=ExtResource("10_ghao7")]
+position = Vector2(1202, -215)
+script = ExtResource("11_o0xp2")
+enemy_scenes = Array[PackedScene]([ExtResource("5_qlwlu"), ExtResource("12_8bwxu")])
+enemy_names = Array[String](["Enemy1", "Scorpion"])
+spawn_points = [NodePath(".")]
+waves = Array[Dictionary]([{
+"Enemy1": 3,
+"Scorpion": 1
+}, {
+"Enemy1": 1,
+"Scorpion": 2
+}])
+spawn_interval = 3.0
