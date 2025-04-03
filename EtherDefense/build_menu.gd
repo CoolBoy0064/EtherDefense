@@ -4,8 +4,10 @@ extends Control
 
 @export var Tower1 : PackedScene
 @export var Tower2 : PackedScene
+@export var Tower3 : PackedScene
 @export var Tower1_cost = 10
 @export var Tower2_cost = 10
+@export var Tower3_cost = 10
 @export var MAX_FUNDAMENTALS = 50
 var fundamentals = 20
 
@@ -56,3 +58,20 @@ func add_funds(funds):
 	fundamentals = fundamentals + funds
 	get_parent().update_HUD()
 	print("current funds: ", fundamentals)
+
+
+func _on_lightning_pressed() -> void:
+	if fundamentals < Tower3_cost:
+		print("ERROR not enough funds")
+		hide()
+		return
+	
+	fundamentals = fundamentals - Tower3_cost
+	get_parent().update_HUD()
+	var tower_instance = Tower3.instantiate()
+	get_tree().get_root().add_child(tower_instance)
+	tower_instance.global_position = $Placement_spot.global_position
+	if get_parent().lookLeft:
+		tower_instance.global_position = $Placement_spot2.global_position
+	tower_instance.apply_floor_snap()
+	hide()

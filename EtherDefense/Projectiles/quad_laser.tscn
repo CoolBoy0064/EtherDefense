@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3 uid="uid://tjb5k7fvqehu"]
+
+[ext_resource type="Script" path="res://Projectiles/quad_laser.gd" id="1_dpves"]
+[ext_resource type="Texture2D" uid="uid://cvqsvvqe3ckus" path="res://Textures/Quad Laser Projectile.png" id="2_6lwu0"]
+[ext_resource type="PackedScene" uid="uid://ccu2w55qxyvvp" path="res://Projectiles/quad_laser_explosion.tscn" id="2_u3uj3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c8u6i"]
+size = Vector2(64, 64)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4v0b6"]
+radius = 204.01
+
+[node name="QuadLaser" type="Area2D"]
+collision_layer = 8
+collision_mask = 3
+script = ExtResource("1_dpves")
+explosion = ExtResource("2_u3uj3")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_6lwu0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_c8u6i")
+
+[node name="explosion_zone" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="explosion_zone"]
+shape = SubResource("CircleShape2D_4v0b6")
+disabled = true
+debug_color = Color(0.961922, 2.88785e-07, 0.507564, 0.42)
+
+[node name="free_timer" type="Timer" parent="."]
+
+[node name="QuadLaserExplosion" parent="." instance=ExtResource("2_u3uj3")]
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="ready" from="." to="." method="_on_ready"]
+[connection signal="body_entered" from="explosion_zone" to="." method="_on_explosion_zone_body_entered"]
+[connection signal="timeout" from="free_timer" to="." method="_on_free_timer_timeout"]

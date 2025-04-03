@@ -1,0 +1,151 @@
+[gd_scene load_steps=14 format=3 uid="uid://on7td0wgw0qb"]
+
+[ext_resource type="Script" path="res://komato.gd" id="1_81ns6"]
+[ext_resource type="Texture2D" uid="uid://1yd6vsvw7iqa" path="res://Textures/Komato/Komato.png" id="2_at2qt"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_i81sl"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_at2qt")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1lejg"]
+radius = 61.0
+height = 126.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tpf47"]
+radius = 30.0
+height = 114.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_o3kcn"]
+radius = 397.555
+
+[sub_resource type="Animation" id="Animation_o20yn"]
+resource_name = "Attack"
+step = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("DamageArea/CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_1d5lm"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("DamageArea/CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tkp43"]
+_data = {
+"Attack": SubResource("Animation_o20yn"),
+"RESET": SubResource("Animation_1d5lm")
+}
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_s70qa"]
+
+[sub_resource type="Theme" id="Theme_nr3nc"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7tgwb"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.405412, 0.871389, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vksbx"]
+bg_color = Color(1, 0.152941, 0.113725, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.34792, 0.879276, 1, 1)
+
+[node name="Komato" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_81ns6")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_i81sl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-4, -3)
+shape = SubResource("CapsuleShape2D_1lejg")
+
+[node name="DamageArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageArea"]
+position = Vector2(-4, 38)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_tpf47")
+
+[node name="Gem_detector" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Gem_detector"]
+shape = SubResource("CircleShape2D_o3kcn")
+
+[node name="wall_detector" type="RayCast2D" parent="."]
+position = Vector2(0, -60)
+target_position = Vector2(-400, 0)
+
+[node name="Ceiling_detector" type="RayCast2D" parent="."]
+target_position = Vector2(0, -200)
+
+[node name="floor_detector" type="RayCast2D" parent="."]
+target_position = Vector2(0, 400)
+
+[node name="floor_detector_2" type="RayCast2D" parent="floor_detector"]
+target_position = Vector2(0, 380)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_tkp43")
+}
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+light_mask = 1048575
+material = SubResource("CanvasItemMaterial_s70qa")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -58.0
+offset_top = -70.0
+offset_right = 517.0
+offset_bottom = -28.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.2, 0.2)
+theme = SubResource("Theme_nr3nc")
+theme_override_styles/background = SubResource("StyleBoxFlat_7tgwb")
+theme_override_styles/fill = SubResource("StyleBoxFlat_vksbx")
+value = 100.0
+show_percentage = false
+
+[connection signal="body_entered" from="DamageArea" to="." method="_on_damage_area_body_entered"]
+[connection signal="body_entered" from="Gem_detector" to="." method="_on_gem_detector_body_entered"]
