@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://ccu2w55qxyvvp"]
+
+[ext_resource type="Texture2D" uid="uid://cvqsvvqe3ckus" path="res://Textures/Quad Laser Projectile.png" id="1_mdwqv"]
+
+[sub_resource type="Curve" id="Curve_d8k54"]
+_data = [Vector2(0, 0.571429), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_xmac6"]
+curve = SubResource("Curve_d8k54")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_sa621"]
+particle_flag_disable_z = true
+angle_min = -720.0
+angle_max = 720.0
+spread = 180.0
+initial_velocity_min = 309.86
+initial_velocity_max = 549.29
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_xmac6")
+
+[node name="QuadLaserExplosion" type="GPUParticles2D"]
+emitting = false
+amount = 100
+process_material = SubResource("ParticleProcessMaterial_sa621")
+texture = ExtResource("1_mdwqv")
+one_shot = true
+explosiveness = 1.0

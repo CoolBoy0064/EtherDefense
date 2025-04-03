@@ -33,3 +33,6 @@ func die():
 
 func _on_IFrameTimer_timeout():
 	iFrames = false
+	
+func is_a_gem():
+	return true

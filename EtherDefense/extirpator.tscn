@@ -1,0 +1,135 @@
+[gd_scene load_steps=12 format=3 uid="uid://iklbl36rmf6s"]
+
+[ext_resource type="Script" path="res://extirpator.gd" id="1_40nk3"]
+[ext_resource type="Texture2D" uid="uid://cs4tyo7lhqgi5" path="res://Textures/Extirp/Extirpator.png" id="2_7ifcn"]
+[ext_resource type="PackedScene" uid="uid://tjb5k7fvqehu" path="res://Projectiles/quad_laser.tscn" id="2_rh8d8"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_uawx0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_7ifcn")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_uf786"]
+radius = 96.0
+height = 226.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ycyjb"]
+size = Vector2(1082.5, 233.5)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ww3dw"]
+radius = 119.017
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sea0q"]
+radius = 119.34
+
+[sub_resource type="Animation" id="Animation_8yky8"]
+resource_name = "Melee_attack"
+step = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Melee_damage/CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.5, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"test"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_pro08"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Melee_damage/CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_sc5x6"]
+_data = {
+"Melee_attack": SubResource("Animation_8yky8"),
+"RESET": SubResource("Animation_pro08")
+}
+
+[node name="Extirpator" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 11
+script = ExtResource("1_40nk3")
+Bullet = ExtResource("2_rh8d8")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_uawx0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, 15)
+shape = SubResource("CapsuleShape2D_uf786")
+
+[node name="Gun" type="Marker2D" parent="."]
+position = Vector2(-121, 9)
+
+[node name="Gun2" type="Marker2D" parent="."]
+position = Vector2(118, 7)
+
+[node name="Shooting Range" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shooting Range"]
+position = Vector2(-750, -1)
+shape = SubResource("RectangleShape2D_ycyjb")
+
+[node name="Melee_range" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Melee_range"]
+position = Vector2(-121, 12)
+shape = SubResource("CircleShape2D_ww3dw")
+
+[node name="Melee_damage" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Melee_damage"]
+position = Vector2(-121, 11)
+shape = SubResource("CircleShape2D_sea0q")
+disabled = true
+debug_color = Color(0.983024, 0, 0.356858, 0.42)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_sc5x6")
+}
+
+[connection signal="body_entered" from="Shooting Range" to="." method="_on_shooting_range_body_entered"]
+[connection signal="body_exited" from="Shooting Range" to="." method="_on_shooting_range_body_exited"]
+[connection signal="body_entered" from="Melee_range" to="." method="_on_melee_range_body_entered"]
+[connection signal="body_entered" from="Melee_damage" to="." method="_on_melee_damage_body_entered"]

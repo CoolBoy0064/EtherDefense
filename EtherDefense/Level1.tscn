@@ -3,14 +3,14 @@
 [ext_resource type="Texture2D" uid="uid://sviffo2knod" path="res://Textures/Tile.png" id="2"]
 [ext_resource type="PackedScene" uid="uid://b38fv8ebxh62y" path="res://Player.tscn" id="3_n6ljk"]
 [ext_resource type="PackedScene" uid="uid://bwteg7ognsle" path="res://Turret.tscn" id="4_dqu3k"]
-[ext_resource type="PackedScene" uid="uid://b1tp87d71nlpw" path="res://ShooterEnemy.tscn" id="5_0fxc2"]
+[ext_resource type="PackedScene" uid="uid://b1tp87d71nlpw" path="res://Enemies/ShooterEnemy.tscn" id="5_0fxc2"]
 [ext_resource type="PackedScene" uid="uid://bo6rpitye6eih" path="res://Enemy1.tscn" id="5_qlwlu"]
 [ext_resource type="Texture2D" uid="uid://dj5bmovw3gx4s" path="res://Textures/CityBackdrop.png" id="6_upvc6"]
 [ext_resource type="Texture2D" uid="uid://c781wks527jod" path="res://Textures/Stars-export.png" id="7_ci4ku"]
 [ext_resource type="PackedScene" uid="uid://dv3u66qx3ydv4" path="res://Gem.tscn" id="8_h8dl0"]
 [ext_resource type="PackedScene" uid="uid://dub64smmmrqbv" path="res://new_spawner.tscn" id="10_ghao7"]
 [ext_resource type="Script" path="res://new_spawner.gd" id="11_o0xp2"]
-[ext_resource type="PackedScene" uid="uid://6thl7vbhllc" path="res://scorpion.tscn" id="12_8bwxu"]
+[ext_resource type="PackedScene" uid="uid://6thl7vbhllc" path="res://Enemies/scorpion.tscn" id="12_8bwxu"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_neybd"]
 texture = ExtResource("2")
@@ -66,6 +66,7 @@ position = Vector2(-426, 78)
 
 [node name="Actor" parent="." instance=ExtResource("5_0fxc2")]
 position = Vector2(627, 79)
+script = null
 
 [node name="DireFerret" parent="." instance=ExtResource("5_qlwlu")]
 position = Vector2(318, 60)
@@ -95,6 +96,7 @@ position = Vector2(1632, 49)
 
 [node name="Enemy2" parent="." instance=ExtResource("5_0fxc2")]
 position = Vector2(2210, -78)
+script = null
 
 [node name="Gem" parent="." instance=ExtResource("8_h8dl0")]
 position = Vector2(-173, 47)

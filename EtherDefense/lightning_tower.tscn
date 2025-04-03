@@ -1,0 +1,81 @@
+[gd_scene load_steps=10 format=3 uid="uid://78nn8a6apeas"]
+
+[ext_resource type="Script" path="res://lightning_tower.gd" id="1_rnokh"]
+[ext_resource type="Texture2D" uid="uid://dhj3pq6v5a5fj" path="res://Textures/Tesla_Coil.png" id="2_lxw53"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_kfneo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_lxw53")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fe8xf"]
+radius = 56.0
+height = 198.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_m0ylw"]
+radius = 567.071
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_h7cde"]
+
+[sub_resource type="Theme" id="Theme_8s054"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ds0d1"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6sy2s"]
+bg_color = Color(0.290196, 0.8, 0, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.403922, 0.870588, 1, 1)
+
+[node name="LightningTower" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 13
+script = ExtResource("1_rnokh")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -27)
+sprite_frames = SubResource("SpriteFrames_kfneo")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_fe8xf")
+
+[node name="Damage_Zone" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Damage_Zone"]
+position = Vector2(1, -86)
+shape = SubResource("CircleShape2D_m0ylw")
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+light_mask = 1048575
+material = SubResource("CanvasItemMaterial_h7cde")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -52.0
+offset_top = -117.0
+offset_right = 483.0
+offset_bottom = -47.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.2, 0.2)
+theme = SubResource("Theme_8s054")
+theme_override_styles/background = SubResource("StyleBoxFlat_ds0d1")
+theme_override_styles/fill = SubResource("StyleBoxFlat_6sy2s")
+value = 100.0
+show_percentage = false
+
+[connection signal="body_entered" from="Damage_Zone" to="." method="_on_damage_zone_body_entered"]
+[connection signal="body_exited" from="Damage_Zone" to="." method="_on_damage_zone_body_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
