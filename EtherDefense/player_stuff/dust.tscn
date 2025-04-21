@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://bn0dgtwj2j8uk"]
+
+[ext_resource type="Texture2D" uid="uid://cflncjvksy0ir" path="res://Textures/dust.png" id="1_hrfap"]
+[ext_resource type="Script" path="res://player_stuff/dust.gd" id="2_tnlmb"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_e2b6v"]
+particle_flag_disable_z = true
+inherit_velocity_ratio = 0.25
+spread = 80.0
+flatness = 0.022
+initial_velocity_min = 25.0
+initial_velocity_max = 50.0
+gravity = Vector3(0, 50, 0)
+
+[node name="Dust" type="GPUParticles2D"]
+rotation = 4.71239
+emitting = false
+amount = 5
+process_material = SubResource("ParticleProcessMaterial_e2b6v")
+texture = ExtResource("1_hrfap")
+one_shot = true
+explosiveness = 1.0
+script = ExtResource("2_tnlmb")
