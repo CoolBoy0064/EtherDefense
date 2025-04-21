@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://dcv4lyqq7totl"]
+
+[ext_resource type="Texture2D" uid="uid://cvqsvvqe3ckus" path="res://Textures/Quad Laser Projectile.png" id="1_yan5w"]
+
+[sub_resource type="Curve" id="Curve_80fvm"]
+_data = [Vector2(0, 0.252747), 0.0, 0.0, 0, 0, Vector2(1, 0.252747), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_l5oxn"]
+curve = SubResource("Curve_80fvm")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_sxwb1"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 71.91
+gravity = Vector3(0, 0, 0)
+radial_accel_min = -200.0
+radial_accel_max = -200.0
+scale_curve = SubResource("CurveTexture_l5oxn")
+
+[node name="quad_laser_charging" type="GPUParticles2D"]
+amount = 20
+process_material = SubResource("ParticleProcessMaterial_sxwb1")
+texture = ExtResource("1_yan5w")

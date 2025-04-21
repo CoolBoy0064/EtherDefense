@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://78nn8a6apeas"]
+[gd_scene load_steps=11 format=3 uid="uid://78nn8a6apeas"]
 
 [ext_resource type="Script" path="res://lightning_tower.gd" id="1_rnokh"]
 [ext_resource type="Texture2D" uid="uid://dhj3pq6v5a5fj" path="res://Textures/Tesla_Coil.png" id="2_lxw53"]
+[ext_resource type="PackedScene" uid="uid://0bn850meql6" path="res://Projectiles/new_lightning.tscn" id="2_uppaj"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_kfneo"]
 animations = [{
@@ -39,6 +40,7 @@ border_color = Color(0.403922, 0.870588, 1, 1)
 collision_layer = 2
 collision_mask = 13
 script = ExtResource("1_rnokh")
+lightning = ExtResource("2_uppaj")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -27)

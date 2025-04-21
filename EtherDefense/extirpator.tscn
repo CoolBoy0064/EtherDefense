@@ -1,8 +1,43 @@
-[gd_scene load_steps=12 format=3 uid="uid://iklbl36rmf6s"]
+[gd_scene load_steps=33 format=3 uid="uid://iklbl36rmf6s"]
 
 [ext_resource type="Script" path="res://extirpator.gd" id="1_40nk3"]
 [ext_resource type="Texture2D" uid="uid://cs4tyo7lhqgi5" path="res://Textures/Extirp/Extirpator.png" id="2_7ifcn"]
 [ext_resource type="PackedScene" uid="uid://tjb5k7fvqehu" path="res://Projectiles/quad_laser.tscn" id="2_rh8d8"]
+[ext_resource type="Texture2D" uid="uid://c0h3f6uvg4r0x" path="res://Textures/Extirp/Extirpator_walk.png" id="4_5ymr3"]
+[ext_resource type="PackedScene" uid="uid://dcv4lyqq7totl" path="res://quad_laser_charging.tscn" id="5_6mrli"]
+[ext_resource type="Texture2D" uid="uid://cvqsvvqe3ckus" path="res://Textures/Quad Laser Projectile.png" id="6_dolg2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v8c4n"]
+atlas = ExtResource("4_5ymr3")
+region = Rect2(0, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_amobf"]
+atlas = ExtResource("4_5ymr3")
+region = Rect2(0, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6p4rw"]
+atlas = ExtResource("4_5ymr3")
+region = Rect2(0, 512, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bsq6d"]
+atlas = ExtResource("4_5ymr3")
+region = Rect2(0, 768, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0motp"]
+atlas = ExtResource("4_5ymr3")
+region = Rect2(0, 1024, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hkkw4"]
+atlas = ExtResource("4_5ymr3")
+region = Rect2(0, 1280, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_633sn"]
+atlas = ExtResource("4_5ymr3")
+region = Rect2(0, 1536, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fty37"]
+atlas = ExtResource("4_5ymr3")
+region = Rect2(0, 1792, 256, 256)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_uawx0"]
 animations = [{
@@ -12,6 +47,35 @@ animations = [{
 }],
 "loop": true,
 "name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v8c4n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_amobf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6p4rw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bsq6d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0motp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hkkw4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_633sn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fty37")
+}],
+"loop": true,
+"name": &"move",
 "speed": 5.0
 }]
 
@@ -50,12 +114,9 @@ tracks/1/path = NodePath(".")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"test"
-}]
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"values": []
 }
 
 [sub_resource type="Animation" id="Animation_pro08"]
@@ -73,11 +134,94 @@ tracks/0/keys = {
 "values": [true]
 }
 
+[sub_resource type="Animation" id="Animation_jfmdd"]
+resource_name = "Shoot"
+step = 0.1
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"charge_laser"
+}, {
+"args": [],
+"method": &"charge_laser"
+}]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"shoot"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_vw0nv"]
+resource_name = "new_animation"
+step = 0.5
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_sc5x6"]
 _data = {
 "Melee_attack": SubResource("Animation_8yky8"),
-"RESET": SubResource("Animation_pro08")
+"RESET": SubResource("Animation_pro08"),
+"Shoot": SubResource("Animation_jfmdd"),
+"new_animation": SubResource("Animation_vw0nv")
 }
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_rhm05"]
+
+[sub_resource type="Theme" id="Theme_s5xy7"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x64k4"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.405412, 0.871389, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eyvit"]
+bg_color = Color(1, 0.152941, 0.113725, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.34792, 0.879276, 1, 1)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6w48e"]
+particle_flag_disable_z = true
+initial_velocity_min = -90.0
+initial_velocity_max = -90.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.22
+scale_max = 0.22
+
+[sub_resource type="Curve" id="Curve_kaovo"]
+_data = [Vector2(0.02, 0.21978), 0.0, 0.0, 0, 0, Vector2(1, 0.21978), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_njn2w"]
+curve = SubResource("Curve_kaovo")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_uqas6"]
+particle_flag_disable_z = true
+initial_velocity_min = 90.0
+initial_velocity_max = 90.0
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_njn2w")
 
 [node name="Extirpator" type="CharacterBody2D"]
 collision_layer = 4
@@ -87,6 +231,8 @@ Bullet = ExtResource("2_rh8d8")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_uawx0")
+animation = &"move"
+frame_progress = 0.607163
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1, 15)
@@ -119,7 +265,7 @@ collision_layer = 4
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Melee_damage"]
-position = Vector2(-121, 11)
+position = Vector2(-120, 7)
 shape = SubResource("CircleShape2D_sea0q")
 disabled = true
 debug_color = Color(0.983024, 0, 0.356858, 0.42)
@@ -128,6 +274,47 @@ debug_color = Color(0.983024, 0, 0.356858, 0.42)
 libraries = {
 "": SubResource("AnimationLibrary_sc5x6")
 }
+
+[node name="quad_laser_charging" parent="." instance=ExtResource("5_6mrli")]
+position = Vector2(-122, 11)
+emitting = false
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+light_mask = 1048575
+material = SubResource("CanvasItemMaterial_rhm05")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -115.0
+offset_top = -161.0
+offset_right = 1035.0
+offset_bottom = -14.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.2, 0.2)
+theme = SubResource("Theme_s5xy7")
+theme_override_styles/background = SubResource("StyleBoxFlat_x64k4")
+theme_override_styles/fill = SubResource("StyleBoxFlat_eyvit")
+value = 100.0
+show_percentage = false
+
+[node name="quad_laser_fire" type="GPUParticles2D" parent="."]
+position = Vector2(-122, 9)
+emitting = false
+process_material = SubResource("ParticleProcessMaterial_6w48e")
+texture = ExtResource("6_dolg2")
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+
+[node name="quad_laser_fire2" type="GPUParticles2D" parent="."]
+position = Vector2(118, 7)
+emitting = false
+process_material = SubResource("ParticleProcessMaterial_uqas6")
+texture = ExtResource("6_dolg2")
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
 
 [connection signal="body_entered" from="Shooting Range" to="." method="_on_shooting_range_body_entered"]
 [connection signal="body_exited" from="Shooting Range" to="." method="_on_shooting_range_body_exited"]

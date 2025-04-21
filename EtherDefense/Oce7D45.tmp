@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=4 uid="uid://bxxx34vy8v0ej"]
+[gd_scene load_steps=15 format=4 uid="uid://bxxx34vy8v0ej"]
 
 [ext_resource type="PackedScene" uid="uid://b38fv8ebxh62y" path="res://Player.tscn" id="2_prpp0"]
 [ext_resource type="Texture2D" uid="uid://086fmvnnci58" path="res://Textures/OceanBaseTile.png" id="2_rs1b8"]
@@ -7,7 +7,6 @@
 [ext_resource type="PackedScene" uid="uid://78nn8a6apeas" path="res://lightning_tower.tscn" id="6_fs23f"]
 [ext_resource type="PackedScene" uid="uid://dv3u66qx3ydv4" path="res://Gem.tscn" id="6_mcte3"]
 [ext_resource type="PackedScene" uid="uid://on7td0wgw0qb" path="res://komato.tscn" id="7_w55no"]
-[ext_resource type="PackedScene" uid="uid://iklbl36rmf6s" path="res://extirpator.tscn" id="8_27diw"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_n2je3"]
 texture = ExtResource("2_rs1b8")
@@ -2653,7 +2652,7 @@ tile_map_data = PackedByteArray("AADQ/1YAAAAIAAAAAADQ/1cAAAAIAAEAAADQ/1gAAAAIAAI
 tile_set = SubResource("TileSet_5fidb")
 
 [node name="Player" parent="." instance=ExtResource("2_prpp0")]
-position = Vector2(-924, 1266)
+position = Vector2(1230, 1182)
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
@@ -2702,6 +2701,3 @@ position = Vector2(1889, 1275)
 
 [node name="Komato" parent="." instance=ExtResource("7_w55no")]
 position = Vector2(2533, 987)
-
-[node name="Extirpator" parent="." instance=ExtResource("8_27diw")]
-position = Vector2(650, 1087)

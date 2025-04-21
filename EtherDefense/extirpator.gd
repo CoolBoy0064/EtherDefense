@@ -6,7 +6,9 @@ extends CharacterBody2D
 @export var attackSpeed = 1
 @export var Bullet : PackedScene
 @export var melee_damage = 3
-var shootCooldown = 1 #time in seconds it will take this enemy to shoot
+@export var MAX_HEALTH = 100
+var health
+var shootCooldown = 3 #time in seconds it will take this enemy to shoot
 var targets = []
 var melee = false
 var shooting = false
@@ -21,12 +23,15 @@ var collision = false #Tracks if a collision has occured on the hurtbox
 const SPEED = 300.0
 const JUMP_VELOCITY = -400.0
 
+func _ready() -> void:
+	health = MAX_HEALTH
+
 func _physics_process(delta: float) -> void:
 	if shooting:
 		if shootCooldown <= 0:
 			print("shooting")
-			shoot()
-			shootCooldown = 1
+			$AnimationPlayer.play("Shoot")
+			shootCooldown = 3
 		shootCooldown -= delta
 
 	if(!stop):
@@ -76,6 +81,10 @@ func shoot():
 	bullet_instance.direction = dir
 	bullet_instance.set_damage(3)
 	print(bullet_instance)
+	if $AnimatedSprite2D.flip_h:
+		$quad_laser_fire2.emitting = true
+	else:
+		$quad_laser_fire.emitting = true
 
 
 func _on_shooting_range_body_entered(body: Node2D) -> void:
@@ -86,13 +95,14 @@ func _on_shooting_range_body_entered(body: Node2D) -> void:
 		shooting = true
 	
 		
-#func handle_hit(Dablege):
-#	Health -= Dablege
-#	HPBar.value = (Health / float(MAX_HEALTH)) * 100
-#	if Health <= 0:
-#		emit_signal("died")
-#		destroy()
+func handle_hit(Dablege):
+	health -= Dablege
+	$HealthBar.value = (health / float(MAX_HEALTH)) * 100
+	if health <= 0:
+		destroy()
 	
+func destroy():
+	queue_free()
 			
 func change_direction():
 	direction = direction * -1
@@ -121,5 +131,15 @@ func _on_melee_damage_body_entered(body: Node2D) -> void:
 	if body.has_method("handle_hit"):
 		body.handle_hit(melee_damage)
 		
-func test():
-	print("animation playing")
+func charge_laser():
+	if !$quad_laser_charging.emitting:
+		$quad_laser_charging.emitting = true
+	else:
+		$quad_laser_charging.emitting = false
+		
+	if $quad_laser_charging.emitting:
+		if $AnimatedSprite2D.flip_h:
+			$quad_laser_charging.global_position == $Gun2.global_position
+		else:
+			$quad_laser_charging.global_position = $Gun.global_position
+		
