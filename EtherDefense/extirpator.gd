@@ -1,7 +1,9 @@
 extends CharacterBody2D
 
 
-@export var movement_speed = Vector2(200,0)
+signal died()
+
+@export var movement_speed = Vector2(50,0)
 @export var gravity = 1600
 @export var attackSpeed = 1
 @export var Bullet : PackedScene
@@ -45,7 +47,7 @@ func _physics_process(delta: float) -> void:
 			$AnimatedSprite2D.flip_h = false
 		elif velocity.x > 0:
 			$AnimatedSprite2D.flip_h = true
-		
+		$AnimatedSprite2D.play("move")
 		
 		set_velocity(velocity)
 		set_up_direction(Vector2.UP)
@@ -54,6 +56,8 @@ func _physics_process(delta: float) -> void:
 	else:
 		if(melee):
 			$AnimationPlayer.play("Melee_attack")
+		else:
+			$AnimatedSprite2D.play("default")
 		velocity.x = 0
 		velocity.y += gravity * delta
 		set_velocity(velocity)
@@ -102,6 +106,7 @@ func handle_hit(Dablege):
 		destroy()
 	
 func destroy():
+	emit_signal("died")
 	queue_free()
 			
 func change_direction():
@@ -143,3 +148,11 @@ func charge_laser():
 		else:
 			$quad_laser_charging.global_position = $Gun.global_position
 		
+
+
+func _on_melee_range_body_exited(body: Node2D) -> void:
+	if len(targets) > 0:
+		shooting = true
+	else:
+		stop = false
+	melee = false

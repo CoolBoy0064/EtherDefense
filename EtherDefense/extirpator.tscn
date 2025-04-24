@@ -1,11 +1,44 @@
-[gd_scene load_steps=33 format=3 uid="uid://iklbl36rmf6s"]
+[gd_scene load_steps=42 format=3 uid="uid://iklbl36rmf6s"]
 
 [ext_resource type="Script" path="res://extirpator.gd" id="1_40nk3"]
 [ext_resource type="Texture2D" uid="uid://cs4tyo7lhqgi5" path="res://Textures/Extirp/Extirpator.png" id="2_7ifcn"]
 [ext_resource type="PackedScene" uid="uid://tjb5k7fvqehu" path="res://Projectiles/quad_laser.tscn" id="2_rh8d8"]
+[ext_resource type="Texture2D" uid="uid://3msou7hnclg" path="res://Textures/Extirp/Extirpator_kick.png" id="4_0tfwj"]
 [ext_resource type="Texture2D" uid="uid://c0h3f6uvg4r0x" path="res://Textures/Extirp/Extirpator_walk.png" id="4_5ymr3"]
 [ext_resource type="PackedScene" uid="uid://dcv4lyqq7totl" path="res://quad_laser_charging.tscn" id="5_6mrli"]
 [ext_resource type="Texture2D" uid="uid://cvqsvvqe3ckus" path="res://Textures/Quad Laser Projectile.png" id="6_dolg2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_safn3"]
+atlas = ExtResource("4_0tfwj")
+region = Rect2(0, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yiu8v"]
+atlas = ExtResource("4_0tfwj")
+region = Rect2(0, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6kwjy"]
+atlas = ExtResource("4_0tfwj")
+region = Rect2(0, 512, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v14cq"]
+atlas = ExtResource("4_0tfwj")
+region = Rect2(0, 768, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cxqhv"]
+atlas = ExtResource("4_0tfwj")
+region = Rect2(0, 1024, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nc0x2"]
+atlas = ExtResource("4_0tfwj")
+region = Rect2(0, 1280, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ervdw"]
+atlas = ExtResource("4_0tfwj")
+region = Rect2(0, 1536, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_blrhw"]
+atlas = ExtResource("4_0tfwj")
+region = Rect2(0, 1792, 256, 256)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_v8c4n"]
 atlas = ExtResource("4_5ymr3")
@@ -47,6 +80,35 @@ animations = [{
 }],
 "loop": true,
 "name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_safn3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yiu8v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6kwjy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v14cq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cxqhv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nc0x2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ervdw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_blrhw")
+}],
+"loop": true,
+"name": &"kick",
 "speed": 5.0
 }, {
 "frames": [{
@@ -94,7 +156,7 @@ radius = 119.34
 
 [sub_resource type="Animation" id="Animation_8yky8"]
 resource_name = "Melee_attack"
-step = 0.5
+step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -102,7 +164,7 @@ tracks/0/path = NodePath("Melee_damage/CollisionShape2D:disabled")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0.5, 1),
+"times": PackedFloat32Array(0.1, 0.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [false, true]
@@ -118,6 +180,30 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(),
 "values": []
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AnimatedSprite2D:animation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"kick"]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AnimatedSprite2D:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6]
+}
 
 [sub_resource type="Animation" id="Animation_pro08"]
 length = 0.001
@@ -132,6 +218,30 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"kick"]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AnimatedSprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
 }
 
 [sub_resource type="Animation" id="Animation_jfmdd"]
@@ -231,8 +341,8 @@ Bullet = ExtResource("2_rh8d8")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_uawx0")
-animation = &"move"
-frame_progress = 0.607163
+animation = &"kick"
+frame = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1, 15)
@@ -319,4 +429,5 @@ explosiveness = 1.0
 [connection signal="body_entered" from="Shooting Range" to="." method="_on_shooting_range_body_entered"]
 [connection signal="body_exited" from="Shooting Range" to="." method="_on_shooting_range_body_exited"]
 [connection signal="body_entered" from="Melee_range" to="." method="_on_melee_range_body_entered"]
+[connection signal="body_exited" from="Melee_range" to="." method="_on_melee_range_body_exited"]
 [connection signal="body_entered" from="Melee_damage" to="." method="_on_melee_damage_body_entered"]

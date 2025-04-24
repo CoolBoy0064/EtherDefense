@@ -4,16 +4,20 @@ extends Node2D
 @export var enemy_names: Array[String]  
 @export var spawn_points: Array[Node2D]
 @export var waves: Array[Dictionary]
+@export var next_level: PackedScene
 @export var spawn_interval: float = 1.0 
 
 var enemy_dict = {}
 var current_wave = 0
 var enemies_remaining = 0
+var complete = false
+var boss_spawned = false
 
 @onready var start_wave_button: Button = get_node("../Player/StartNextWave")
 @onready var level_complete_label: Label = get_node("../Player/LevelCompleteLabel")
 
 func _ready():
+	current_wave = 2 #temporary set to test boss wave
 	for i in range(min(enemy_names.size(), enemy_scenes.size())):
 		enemy_dict[enemy_names[i]] = enemy_scenes[i]
 		
@@ -30,12 +34,14 @@ func start_wave():
 		print("All waves completed!")
 		level_complete_label.visible = true
 		level_complete_label.text = "Level Completed!"
+		complete = true
 		return
 		
 	var wave_data = waves[current_wave]
 	print("Starting Wave " + str(current_wave + 1))
 	enemies_remaining = 0  
 
+	
 	for enemy_type in wave_data.keys():
 		var count = wave_data[enemy_type]
 		for i in range(count):
@@ -70,10 +76,10 @@ func on_enemy_died():
 	enemies_remaining -= 1
 	if enemies_remaining <= 0:
 		print("Wave " + str(current_wave) + " cleared!")
-		if current_wave < waves.size():
+		if current_wave < waves.size() && !complete:
 			start_wave_button.visible = true
 		else:
 			level_complete_label.visible = true
 			level_complete_label.text = "Level Completed!"
 			await get_tree().create_timer(5.0).timeout
-			get_tree().change_scene_to_file("res://OceanBaseLvl.tscn")
+			get_tree().change_scene_to_file.bind("res://Title Screen.tscn").call_deferred()
