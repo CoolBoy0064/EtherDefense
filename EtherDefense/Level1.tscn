@@ -1,16 +1,17 @@
-[gd_scene load_steps=14 format=4 uid="uid://cety0kg78aykn"]
+[gd_scene load_steps=15 format=4 uid="uid://cety0kg78aykn"]
 
 [ext_resource type="Texture2D" uid="uid://sviffo2knod" path="res://Textures/Tile.png" id="2"]
 [ext_resource type="PackedScene" uid="uid://b38fv8ebxh62y" path="res://Player.tscn" id="3_n6ljk"]
+[ext_resource type="PackedScene" uid="uid://is5asrosvqyu" path="res://LevelCompleteLabel.tscn" id="3_vbmbv"]
+[ext_resource type="PackedScene" uid="uid://c7wkhtmi728nt" path="res://StartNextWave.tscn" id="4_5lnyw"]
 [ext_resource type="PackedScene" uid="uid://bwteg7ognsle" path="res://Turret.tscn" id="4_dqu3k"]
-[ext_resource type="PackedScene" uid="uid://b1tp87d71nlpw" path="res://ShooterEnemy.tscn" id="5_0fxc2"]
-[ext_resource type="PackedScene" uid="uid://bo6rpitye6eih" path="res://Enemy1.tscn" id="5_qlwlu"]
 [ext_resource type="Texture2D" uid="uid://dj5bmovw3gx4s" path="res://Textures/CityBackdrop.png" id="6_upvc6"]
 [ext_resource type="Texture2D" uid="uid://c781wks527jod" path="res://Textures/Stars-export.png" id="7_ci4ku"]
 [ext_resource type="PackedScene" uid="uid://dv3u66qx3ydv4" path="res://Gem.tscn" id="8_h8dl0"]
 [ext_resource type="PackedScene" uid="uid://dub64smmmrqbv" path="res://new_spawner.tscn" id="10_ghao7"]
-[ext_resource type="Script" path="res://new_spawner.gd" id="11_o0xp2"]
+[ext_resource type="Script" path="res://new_spawner.gd" id="10_u3xyj"]
 [ext_resource type="PackedScene" uid="uid://6thl7vbhllc" path="res://scorpion.tscn" id="12_8bwxu"]
+[ext_resource type="PackedScene" uid="uid://b1tp87d71nlpw" path="res://ShooterEnemy.tscn" id="12_owosn"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_neybd"]
 texture = ExtResource("2")
@@ -61,15 +62,19 @@ tile_set = SubResource("TileSet_nlewr")
 [node name="Player" parent="." instance=ExtResource("3_n6ljk")]
 position = Vector2(14, 44)
 
+[node name="LevelCompleteLabel" parent="Player" instance=ExtResource("3_vbmbv")]
+visible = false
+offset_top = -143.0
+offset_right = 207.0
+offset_bottom = -89.0
+
+[node name="StartNextWave" parent="Player" instance=ExtResource("4_5lnyw")]
+visible = false
+offset_top = -117.0
+offset_bottom = -90.0
+
 [node name="Turret" parent="." instance=ExtResource("4_dqu3k")]
 position = Vector2(-426, 78)
-
-[node name="Actor" parent="." instance=ExtResource("5_0fxc2")]
-position = Vector2(627, 79)
-script = null
-
-[node name="DireFerret" parent="." instance=ExtResource("5_qlwlu")]
-position = Vector2(318, 60)
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
@@ -88,30 +93,26 @@ motion_scale = Vector2(0.01, 0.5)
 motion_mirroring = Vector2(2048, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer2"]
-position = Vector2(242, -494)
+position = Vector2(6026, 136)
 texture = ExtResource("7_ci4ku")
-
-[node name="MeleeEnemy" parent="." instance=ExtResource("5_qlwlu")]
-position = Vector2(1632, 49)
-
-[node name="Enemy2" parent="." instance=ExtResource("5_0fxc2")]
-position = Vector2(2210, -78)
-script = null
+offset = Vector2(-5784, -630)
 
 [node name="Gem" parent="." instance=ExtResource("8_h8dl0")]
 position = Vector2(-173, 47)
 
 [node name="NewSpawner" parent="." node_paths=PackedStringArray("spawn_points") instance=ExtResource("10_ghao7")]
 position = Vector2(1202, -215)
-script = ExtResource("11_o0xp2")
-enemy_scenes = Array[PackedScene]([ExtResource("5_qlwlu"), ExtResource("12_8bwxu")])
-enemy_names = Array[String](["Enemy1", "Scorpion"])
+script = ExtResource("10_u3xyj")
+enemy_scenes = Array[PackedScene]([ExtResource("12_8bwxu"), ExtResource("12_owosn")])
+enemy_names = Array[String](["Scorpion", "Shooter"])
 spawn_points = [NodePath(".")]
 waves = Array[Dictionary]([{
-"Enemy1": 3,
-"Scorpion": 1
+"Scorpion": 1,
+"Shooter": 1
 }, {
-"Enemy1": 1,
-"Scorpion": 2
+"Scorpion": 2,
+"Shooter": 2
+}, {
+"Scorpion": 3,
+"Shooter": 3
 }])
-spawn_interval = 3.0
