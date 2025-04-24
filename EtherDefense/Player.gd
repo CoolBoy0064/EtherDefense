@@ -23,13 +23,18 @@ var lookLeft = 0
 var currentWeapon = 1
 var shieldActive = 0
 var isShieldUp = false
+var landing = false
 var shieldUpInstance
 var dead = false
+var attacking = false
+var walking = false
 var spawn_position
 @export var Bullet: PackedScene
 @export var Melee: PackedScene
 @export var Shield: PackedScene
 @export var ShieldUp: PackedScene
+@export var ghost: PackedScene
+@export var dust: PackedScene
 
 
 @onready var gun = $PkmnGUN
@@ -38,12 +43,23 @@ var spawn_position
 		
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("attack") and !isShieldUp:
-		swing()
+		if !is_on_floor():
+			$AnimationPlayer.play("Jump_swing")
+		else:
+			if !isDashing:
+				$AnimationPlayer.play("swing")
+			else:
+				$AnimationPlayer.play("dash_swing")
+		attacking = true
 	if event.is_action_pressed("Secondary") and !isShieldUp:
 		if(currentWeapon == 1):
-			$AnimationPlayer.play("Shoot")
-		elif currentWeapon == 2:
-			shieldUp()
+			if isDashing:
+				$AnimationPlayer.play("dash_shoot")
+			else:
+				$AnimationPlayer.play("Shoot")
+		elif currentWeapon == 2  and !shieldActive:
+			$AnimationPlayer.play("holding_shield")
+		attacking = true
 	if event.is_action_pressed("Switch") and !isShieldUp:
 		if(currentWeapon == 1): #If weapon is the gun, switch to shield
 			currentWeapon = 2
@@ -51,9 +67,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		elif currentWeapon == 2: #If weapon is shield, switch to gun
 			currentWeapon = 1
 			print ("weapon is gun")
+		update_HUD()
 	if event.is_action_released("Secondary") and isShieldUp:
 		isShieldUp = false
-		shield()
+		$AnimationPlayer.play("Shield_Throw")
 	if event.is_action_pressed("ui_pause"):
 		get_tree().change_scene_to_file("res://Title Screen.tscn")
 	if event.is_action_pressed("spawn_tower"):
@@ -119,24 +136,48 @@ func _ready():
 	update_HUD()
 	spawn_position = global_position
 	HPBar.max_value = MAX_HEALTH
+	$AnimationPlayer.get_animation("walk").loop = true
 
 
 func get_direction(wallJump: bool) -> Vector2:
+	var jumping
+	var movement_direction = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
+	if Input.is_action_just_pressed("jump") and is_on_floor() or Input.is_action_just_pressed("jump") and is_on_wall():
+		if !attacking:
+			$Sprite.play("Jumping")
+		jumping = -1
+	elif is_on_floor():
+		jumping = 0
+		if $Sprite.animation == "falling" && !attacking:
+			$AnimationPlayer.play("landing")
+			landing = true
+	else:
+		jumping = 1
+		if !attacking && $Sprite.animation != "falling":
+			$Sprite.play("falling") 
 	if wallJump:
-		return Vector2(direction.x, 
-		-1.0 if Input.is_action_just_pressed("jump") and is_on_floor() or Input.is_action_just_pressed("jump") and is_on_wall() else 1.0)
-	return Vector2(Input.get_action_strength("move_right") - Input.get_action_strength("move_left"),
-	-1.0 if Input.is_action_just_pressed("jump") and is_on_floor() or Input.is_action_just_pressed("jump") and is_on_wall() else 1.0)
+		movement_direction = direction.x
+	if movement_direction == 0 && jumping == 0 && is_on_floor() && !attacking && !landing:
+		$Sprite.play("default")
+	elif is_on_floor() && !attacking && jumping == 0 && !isDashing && !landing:
+		$Sprite.play("walking")
+	return Vector2(movement_direction, jumping)
 	
 func calculate_move_velocity(linear_velocity: Vector2, direction: Vector2, speed: Vector2, is_jump_interrupted: bool, wallJump: bool) -> Vector2:
-	if Input.is_action_pressed("dash") and is_on_floor() and !shieldActive:
-		speed.x = 400
+	if Input.is_action_pressed("dash") and !isShieldUp:
+		if is_on_floor():
+			if $Sprite.animation != "dash_start" && !attacking:
+				$Sprite.play("dash_start")
+				create_dust()
+		speed.x = 600
 		isDashing = 1
-	elif isDashing == 1 and !is_on_floor():
-		speed.x = 400
-	elif !Input.is_action_pressed("dash"):
+		if $Ghost_timer.is_stopped():
+			$Ghost_timer.start(.1)
+	elif !Input.is_action_pressed("dash") && is_on_floor():
 		isDashing = 0
-		speed.x = 200
+		speed.x = 300
+	if is_on_floor():
+		speed.y = 0
 	
 	
 	var new_velocity: = linear_velocity
@@ -203,8 +244,16 @@ func shieldUp():
 			shieldUpInstance.global_position = gun.global_position
 		elif lookLeft:
 			shieldUpInstance.global_position = gun2.global_position
+			shieldUpInstance.scale.x = -1
 		shieldActive = true
 		isShieldUp = true
+		isDashing = false
+		
+func createGhost():
+	var newGhost = ghost.instantiate()
+	get_tree().get_root().add_child(newGhost)
+	newGhost.global_position = global_position
+	newGhost.flip_h = $Sprite.flip_h
 		
 func handle_hit(dabledge):
 	if(iFrames == 0):
@@ -236,8 +285,34 @@ func respawn():
 	
 func update_HUD():
 	$Fundamentals/Label.text = str($Build_Menu.fundamentals)
+	if currentWeapon == 2:
+		$UIStuff/secondary.play("shield")
+	else:
+		$UIStuff/secondary.play("gun")
 	
 	
 func add_funds(funds):
 	$Build_Menu.add_funds(funds)
+
+func set_attacking():
+	if attacking:
+		attacking = false
+	else:
+		attacking = true
+
+
+func stop_landing():
+	landing = false
 	
+func create_dust():
+	var newDust = dust.instantiate()
+	get_tree().get_root().add_child(newDust)
+	newDust.global_position = $dust_spawn.global_position
+	if lookLeft:
+		newDust.global_position.x *= -1
+	newDust.emitting = true
+
+func _on_ghost_timer_timeout() -> void:
+	if isDashing:
+		createGhost()
+		

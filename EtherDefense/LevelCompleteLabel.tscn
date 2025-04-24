@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://is5asrosvqyu"]
+
+[ext_resource type="FontFile" uid="uid://cv8vdx4kjn3lx" path="res://COOPBL.TTF" id="1_71ra1"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_16ka1"]
+font = ExtResource("1_71ra1")
+font_size = 46
+font_color = Color(0.555013, 0.849787, 1, 1)
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 14
+shadow_color = Color(0, 0.870588, 1, 0.290196)
+shadow_offset = Vector2(2, 1)
+
+[node name="LevelCompleteLabel" type="Label"]
+offset_left = -162.0
+offset_top = -36.0
+offset_right = 165.0
+offset_bottom = 24.0
+text = "Level Complete!"
+label_settings = SubResource("LabelSettings_16ka1")

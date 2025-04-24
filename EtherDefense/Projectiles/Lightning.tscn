@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://02gbbj7dwq6e"]
+
+[ext_resource type="Texture2D" uid="uid://c7dufsko7wuqe" path="res://Textures/Lightning/lightning-export.png" id="1_5h3q2"]
+
+[sub_resource type="Curve" id="Curve_2eulp"]
+_data = [Vector2(0, 0.527472), 0.0, 0.0, 0, 0, Vector2(0.533333, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_1h837"]
+curve = SubResource("Curve_2eulp")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4dmje"]
+particle_flag_disable_z = true
+radial_velocity_min = 20.0
+radial_velocity_max = 20.0
+radial_velocity_curve = SubResource("CurveTexture_1h837")
+gravity = Vector3(0, 0, 0)
+scale_min = 0.05
+scale_max = 0.05
+
+[node name="Lightning" type="GPUParticles2D"]
+emitting = false
+amount = 1
+process_material = SubResource("ParticleProcessMaterial_4dmje")
+texture = ExtResource("1_5h3q2")
+lifetime = 1.7
+one_shot = true
+explosiveness = 1.0
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://ich3l8imdyi0"]
+[gd_scene load_steps=7 format=3 uid="uid://ich3l8imdyi0"]
 
 [ext_resource type="Script" path="res://MainMenu.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://xxmb1q3y145g" path="res://Background.png" id="2_ly2wx"]
+[ext_resource type="Texture2D" uid="uid://dj5bmovw3gx4s" path="res://Textures/CityBackdrop.png" id="2_hxn5a"]
 [ext_resource type="Theme" uid="uid://172w2bxq0x0l" path="res://Button.tres" id="3_8jfv3"]
+[ext_resource type="Texture2D" uid="uid://c781wks527jod" path="res://Textures/Stars-export.png" id="3_wx42b"]
 [ext_resource type="FontFile" uid="uid://cv8vdx4kjn3lx" path="res://COOPBL.TTF" id="4_pj1vv"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_qvqqe"]
@@ -25,14 +26,26 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1")
 
-[node name="TextureRect" type="TextureRect" parent="."]
-layout_mode = 0
-offset_left = 1154.0
-offset_top = 649.0
-offset_right = 2307.0
-offset_bottom = 1673.0
-rotation = -3.14127
-texture = ExtResource("2_ly2wx")
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+position = Vector2(-77, -32)
+motion_scale = Vector2(0.01, 0.5)
+motion_mirroring = Vector2(2048, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+position = Vector2(245, 530)
+texture = ExtResource("2_hxn5a")
+
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
+position = Vector2(-77, -32)
+motion_scale = Vector2(0.01, 0.5)
+motion_mirroring = Vector2(2048, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer2"]
+position = Vector2(6026, 136)
+texture = ExtResource("3_wx42b")
+offset = Vector2(-5784, -630)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 0
@@ -41,10 +54,10 @@ offset_top = 209.0
 offset_right = 735.0
 offset_bottom = 350.0
 
-[node name="NewGameButton" type="Button" parent="VBoxContainer"]
+[node name="LvlSelect" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("3_8jfv3")
-text = "New Game"
+text = "Level Select"
 
 [node name="OldGameButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
@@ -61,11 +74,6 @@ layout_mode = 2
 theme = ExtResource("3_8jfv3")
 text = "Quit"
 
-[node name="LvlSelect" type="Button" parent="VBoxContainer"]
-layout_mode = 2
-theme = ExtResource("3_8jfv3")
-text = "Level Select"
-
 [node name="Label" type="Label" parent="."]
 layout_mode = 0
 offset_left = 416.0
@@ -78,6 +86,5 @@ label_settings = SubResource("LabelSettings_qvqqe")
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(596, 137)
 
-[connection signal="pressed" from="VBoxContainer/NewGameButton" to="." method="_on_NewGameButton_pressed"]
-[connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="_on_QuitButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/LvlSelect" to="." method="_on_lvl_select_pressed"]
+[connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="_on_QuitButton_pressed"]

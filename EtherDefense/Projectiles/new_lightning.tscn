@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://0bn850meql6"]
+
+[ext_resource type="PackedScene" uid="uid://02gbbj7dwq6e" path="res://Projectiles/Lightning.tscn" id="1_oui4k"]
+[ext_resource type="Script" path="res://Projectiles/lightning.gd" id="1_sie7t"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bguyd"]
+
+[node name="New_lightning" type="CharacterBody2D"]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_sie7t")
+lightning = ExtResource("1_oui4k")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_bguyd")
+
+[node name="Timer" type="Timer" parent="."]
