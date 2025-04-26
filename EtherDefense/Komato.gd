@@ -36,8 +36,6 @@ func _physics_process(delta: float) -> void:
 		#In general the komato should only spawn in higher up places
 		if $wall_detector.is_colliding(): #if we are about to hit a wall
 			speed.y = 200 #if were about to hit a wall, move under it.
-		elif speed.y > 0 && !$Ceiling_detector.is_colliding():  #if we are not about to hit a wall and were not about to hit a ceiling and we are moving up
-			speed.y = -200 #If we have cleared the wall we were about to collide with, move back up
 		elif $Ceiling_detector.is_colliding() && speed.y < 0: #if we are not about to hit a wall and we are about to hit a ceiling, stop
 			speed.y = 0 #If we are about to move into a ceiling stop.
 		elif $floor_detector/floor_detector_2.is_colliding(): #if we are too close to the floor

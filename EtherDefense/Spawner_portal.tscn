@@ -1,0 +1,49 @@
+[gd_scene load_steps=8 format=3 uid="uid://bn5ry1kmkpp1m"]
+
+[ext_resource type="Texture2D" uid="uid://j8syv5bj6lbt" path="res://Textures/portal.png" id="1_ukhqv"]
+[ext_resource type="Script" path="res://spawner_portal.gd" id="2_m1drn"]
+[ext_resource type="Texture2D" uid="uid://cvqsvvqe3ckus" path="res://Textures/Quad Laser Projectile.png" id="2_myomp"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a8hfa"]
+atlas = ExtResource("1_ukhqv")
+region = Rect2(0, 0, 72, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ps0wl"]
+atlas = ExtResource("1_ukhqv")
+region = Rect2(0, 72, 72, 72)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ky5ce"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a8hfa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ps0wl")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_jb4cv"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 42.7
+gravity = Vector3(0, 98, 0)
+scale_min = 0.2
+scale_max = 0.2
+color = Color(0.641934, 0.641934, 0.641934, 1)
+hue_variation_min = 1.0
+hue_variation_max = 1.0
+
+[node name="SpawnerPortal" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_ky5ce")
+autoplay = "default"
+frame_progress = 0.214473
+script = ExtResource("2_m1drn")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+amount = 3
+process_material = SubResource("ParticleProcessMaterial_jb4cv")
+texture = ExtResource("2_myomp")

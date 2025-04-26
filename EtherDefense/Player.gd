@@ -51,7 +51,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			else:
 				$AnimationPlayer.play("dash_swing")
 		attacking = true
-	if event.is_action_pressed("Secondary") and !isShieldUp:
+	if event.is_action_pressed("Secondary") and !isShieldUp && !attacking:
 		if(currentWeapon == 1):
 			if isDashing:
 				$AnimationPlayer.play("dash_shoot")
@@ -89,6 +89,8 @@ func _physics_process(delta):
 			direction.x = -direction.x
 		is_jump_interrupted = Input.is_action_just_released("jump") and velocity.y < 0
 		direction = get_direction(wallJump)
+		if !is_on_floor() && $Slope_detector.is_colliding():
+			apply_floor_snap()
 		velocity = calculate_move_velocity(velocity,direction, speed, is_jump_interrupted, wallJump)
 		set_velocity(velocity)
 		move_and_slide()
@@ -166,7 +168,7 @@ func get_direction(wallJump: bool) -> Vector2:
 func calculate_move_velocity(linear_velocity: Vector2, direction: Vector2, speed: Vector2, is_jump_interrupted: bool, wallJump: bool) -> Vector2:
 	if Input.is_action_pressed("dash") and !isShieldUp:
 		if is_on_floor():
-			if $Sprite.animation != "dash_start" && !attacking:
+			if $Sprite.animation != "dash_start" && !attacking && velocity.x != 0:
 				$Sprite.play("dash_start")
 				create_dust()
 		speed.x = 600
@@ -250,6 +252,8 @@ func shieldUp():
 		isDashing = false
 		
 func createGhost():
+	if dead:
+		return
 	var newGhost = ghost.instantiate()
 	get_tree().get_root().add_child(newGhost)
 	newGhost.global_position = global_position
@@ -309,7 +313,7 @@ func create_dust():
 	get_tree().get_root().add_child(newDust)
 	newDust.global_position = $dust_spawn.global_position
 	if lookLeft:
-		newDust.global_position.x *= -1
+		newDust.global_position = $dust_spawn/dust_spawn.global_position
 	newDust.emitting = true
 
 func _on_ghost_timer_timeout() -> void:

@@ -37,6 +37,7 @@ border_width_bottom = 5
 border_color = Color(0.403922, 0.870588, 1, 1)
 
 [node name="LightningTower" type="CharacterBody2D"]
+position = Vector2(0, -200)
 collision_layer = 2
 collision_mask = 13
 script = ExtResource("1_rnokh")

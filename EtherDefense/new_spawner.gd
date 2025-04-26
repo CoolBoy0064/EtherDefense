@@ -60,6 +60,10 @@ func spawn_enemy(enemy_type: String):
 		var spawn_location = spawn_points[randi() % spawn_points.size()]
 		var enemy = enemy_scene.instantiate()
 		enemy.position = spawn_location.global_position
+		if spawn_location.has_method("get_direction"):
+			if spawn_location.get_direction():
+				if enemy.has_method("change_direction"):
+					enemy.change_direction()
 
 		if enemy.has_signal("died"):
 			var result = enemy.connect("died", Callable(self, "on_enemy_died"))

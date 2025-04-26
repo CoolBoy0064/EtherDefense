@@ -1,13 +1,21 @@
-[gd_scene load_steps=16 format=4 uid="uid://bxxx34vy8v0ej"]
+[gd_scene load_steps=24 format=4 uid="uid://bxxx34vy8v0ej"]
 
 [ext_resource type="PackedScene" uid="uid://b38fv8ebxh62y" path="res://Player.tscn" id="2_prpp0"]
 [ext_resource type="Texture2D" uid="uid://086fmvnnci58" path="res://Textures/OceanBaseTile.png" id="2_rs1b8"]
 [ext_resource type="Texture2D" uid="uid://dvu20hi6182b2" path="res://Textures/OceanBaseBG2.png" id="3_ao3kd"]
+[ext_resource type="PackedScene" uid="uid://c7wkhtmi728nt" path="res://StartNextWave.tscn" id="3_qvqxc"]
+[ext_resource type="PackedScene" uid="uid://is5asrosvqyu" path="res://LevelCompleteLabel.tscn" id="4_jhihn"]
 [ext_resource type="Texture2D" uid="uid://c5jvrpx37ifft" path="res://Textures/OceanBaseBG1.png" id="4_wlb7g"]
-[ext_resource type="PackedScene" uid="uid://78nn8a6apeas" path="res://lightning_tower.tscn" id="6_fs23f"]
+[ext_resource type="PackedScene" uid="uid://dub64smmmrqbv" path="res://new_spawner.tscn" id="6_aqf7r"]
 [ext_resource type="PackedScene" uid="uid://dv3u66qx3ydv4" path="res://Gem.tscn" id="6_mcte3"]
+[ext_resource type="PackedScene" uid="uid://bn5ry1kmkpp1m" path="res://Spawner_portal.tscn" id="7_25lrq"]
+[ext_resource type="Script" path="res://new_spawner.gd" id="7_71a5n"]
 [ext_resource type="PackedScene" uid="uid://on7td0wgw0qb" path="res://komato.tscn" id="7_w55no"]
 [ext_resource type="PackedScene" uid="uid://iklbl36rmf6s" path="res://extirpator.tscn" id="8_27diw"]
+[ext_resource type="PackedScene" uid="uid://6thl7vbhllc" path="res://scorpion.tscn" id="8_f0o6y"]
+[ext_resource type="PackedScene" uid="uid://b1tp87d71nlpw" path="res://ShooterEnemy.tscn" id="9_pij7q"]
+[ext_resource type="PackedScene" uid="uid://d0v2eqbe6pviy" path="res://brute.tscn" id="11_modwa"]
+[ext_resource type="PackedScene" uid="uid://ich3l8imdyi0" path="res://Title Screen.tscn" id="13_mk3h3"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_n2je3"]
 texture = ExtResource("2_rs1b8")
@@ -2653,7 +2661,13 @@ tile_map_data = PackedByteArray("AADQ/1YAAAAIAAAAAADQ/1cAAAAIAAEAAADQ/1gAAAAIAAI
 tile_set = SubResource("TileSet_5fidb")
 
 [node name="Player" parent="." instance=ExtResource("2_prpp0")]
-position = Vector2(-924, 1266)
+position = Vector2(-1571, 1272)
+
+[node name="StartNextWave" parent="Player" instance=ExtResource("3_qvqxc")]
+visible = false
+
+[node name="LevelCompleteLabel" parent="Player" instance=ExtResource("4_jhihn")]
+visible = false
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
@@ -2697,11 +2711,42 @@ shape = SubResource("SegmentShape2D_iop2m")
 [node name="Gem" parent="." instance=ExtResource("6_mcte3")]
 position = Vector2(887, 1164)
 
-[node name="LightningTower" parent="." instance=ExtResource("6_fs23f")]
-position = Vector2(1889, 1275)
+[node name="NewSpawner" parent="." node_paths=PackedStringArray("spawn_points") instance=ExtResource("6_aqf7r")]
+script = ExtResource("7_71a5n")
+enemy_scenes = Array[PackedScene]([ExtResource("8_f0o6y"), ExtResource("9_pij7q"), ExtResource("7_w55no"), ExtResource("11_modwa"), ExtResource("8_27diw")])
+enemy_names = Array[String](["Scorpion", "Shooter", "komato", "brute", "extirpator"])
+spawn_points = [NodePath("SpawnerPortal"), NodePath("SpawnerPortal2"), NodePath("SpawnerPortal3"), NodePath("SpawnerPortal4")]
+waves = Array[Dictionary]([{
+"Scorpion": 4,
+"Shooter": 2,
+"brute": 1
+}, {
+"Scorpion": 6,
+"Shooter": 4,
+"brute": 2
+}, {
+"Scorpion": 8,
+"brute": 4,
+"komato": 2
+}, {
+"Scorpion": 2,
+"Shooter": 1,
+"brute": 1,
+"extirpator": 1,
+"komato": 1
+}])
+next_level = ExtResource("13_mk3h3")
 
-[node name="Komato" parent="." instance=ExtResource("7_w55no")]
-position = Vector2(2533, 987)
+[node name="SpawnerPortal4" parent="NewSpawner" instance=ExtResource("7_25lrq")]
+position = Vector2(3511, 579)
 
-[node name="Extirpator" parent="." instance=ExtResource("8_27diw")]
-position = Vector2(650, 1087)
+[node name="SpawnerPortal" parent="NewSpawner" instance=ExtResource("7_25lrq")]
+position = Vector2(3657, 1136)
+
+[node name="SpawnerPortal2" parent="NewSpawner" instance=ExtResource("7_25lrq")]
+position = Vector2(-2399, 1143)
+right = true
+
+[node name="SpawnerPortal3" parent="NewSpawner" instance=ExtResource("7_25lrq")]
+position = Vector2(-2033, 389)
+right = true
