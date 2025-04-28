@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://cwbdk1gs7a6av"]
+
+[ext_resource type="Script" path="res://player_stuff/death_barrier.gd" id="1_7kd1d"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_c6qjb"]
+
+[node name="DeathBarrier" type="Area2D"]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_7kd1d")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("WorldBoundaryShape2D_c6qjb")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

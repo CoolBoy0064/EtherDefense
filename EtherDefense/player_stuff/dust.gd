@@ -5,5 +5,4 @@ extends GPUParticles2D
 func _ready() -> void:
 
 	await finished
-	print("freeing dust")
 	queue_free()
