@@ -1,4 +1,4 @@
-[gd_scene load_steps=116 format=3 uid="uid://b38fv8ebxh62y"]
+[gd_scene load_steps=117 format=3 uid="uid://b38fv8ebxh62y"]
 
 [ext_resource type="Script" path="res://Player.gd" id="2"]
 [ext_resource type="PackedScene" uid="uid://c7jof21gvvmq5" path="res://Projectiles/Melee Hurtbox.tscn" id="3"]
@@ -27,6 +27,7 @@
 [ext_resource type="Texture2D" uid="uid://cmkdhy3x1xn3v" path="res://Textures/Player Sprites/misc/swordpfp.png" id="20_p3v52"]
 [ext_resource type="Texture2D" uid="uid://cnrshctv0ign7" path="res://Textures/Player Sprites/misc/gunpfp.png" id="21_ie2i8"]
 [ext_resource type="Texture2D" uid="uid://178triklpcl3" path="res://Textures/Player Sprites/misc/shieldpfp.png" id="22_we8o5"]
+[ext_resource type="Texture2D" uid="uid://dpwn3w7lq3frn" path="res://Textures/funds.png" id="25_p2hto"]
 
 [sub_resource type="CanvasItemMaterial" id="8"]
 
@@ -1212,7 +1213,7 @@ material = SubResource("8")
 collision_layer = 2
 collision_mask = 29
 script = ExtResource("2")
-damage = 10
+damage = 25
 Bullet = ExtResource("4")
 Melee = ExtResource("3")
 Shield = ExtResource("5")
@@ -1237,12 +1238,16 @@ shape = SubResource("2")
 debug_color = Color(0.936606, 0.252477, 0, 0.42)
 
 [node name="Camera2D" type="Camera2D" parent="."]
+position_smoothing_enabled = true
 
 [node name="PkmnGUN" type="Marker2D" parent="."]
 position = Vector2(59, 0)
 
 [node name="dust_spawn" type="Marker2D" parent="."]
 position = Vector2(-60, 65)
+
+[node name="dust_spawn" type="Marker2D" parent="dust_spawn"]
+position = Vector2(117, 0)
 
 [node name="HealthBar" type="ProgressBar" parent="."]
 light_mask = 1048575
@@ -1297,17 +1302,16 @@ label_settings = ExtResource("8_tgje5")
 z_index = 4000
 offset_left = -930.0
 offset_top = -521.0
-offset_right = -848.0
+offset_right = -915.0
 offset_bottom = -492.0
-text = "Funds:"
 label_settings = ExtResource("8_tgje5")
 
 [node name="Label" type="Label" parent="Fundamentals"]
 layout_mode = 0
-offset_left = 86.0
-offset_top = 2.0
-offset_right = 126.0
-offset_bottom = 31.0
+offset_left = 37.0
+offset_top = -12.0
+offset_right = 77.0
+offset_bottom = 34.0
 label_settings = SubResource("LabelSettings_5pqx3")
 
 [node name="Build_Menu" type="Control" parent="."]
@@ -1372,7 +1376,12 @@ offset_top = -472.0
 offset_right = -858.0
 offset_bottom = -303.0
 
+[node name="funds" type="Sprite2D" parent="UIStuff"]
+position = Vector2(0, -37)
+texture = ExtResource("25_p2hto")
+
 [node name="sword" type="Sprite2D" parent="UIStuff"]
+position = Vector2(0, -1)
 texture = ExtResource("20_p3v52")
 
 [node name="secondary" type="AnimatedSprite2D" parent="UIStuff"]
@@ -1382,6 +1391,9 @@ animation = &"shield"
 autoplay = "gun"
 
 [node name="Ghost_timer" type="Timer" parent="."]
+
+[node name="Slope_detector" type="RayCast2D" parent="."]
+target_position = Vector2(0, 73)
 
 [connection signal="body_entered" from="EnemyDetector" to="." method="_on_EnemyDetector_body_entered"]
 [connection signal="pressed" from="Build_Menu/Turret" to="Build_Menu" method="_on_turret_pressed"]
