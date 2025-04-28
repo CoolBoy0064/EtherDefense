@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://ich3l8imdyi0"]
+[gd_scene load_steps=8 format=3 uid="uid://ich3l8imdyi0"]
 
 [ext_resource type="Script" path="res://MainMenu.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://dj5bmovw3gx4s" path="res://Textures/CityBackdrop.png" id="2_hxn5a"]
 [ext_resource type="Theme" uid="uid://172w2bxq0x0l" path="res://Button.tres" id="3_8jfv3"]
 [ext_resource type="Texture2D" uid="uid://c781wks527jod" path="res://Textures/Stars-export.png" id="3_wx42b"]
 [ext_resource type="FontFile" uid="uid://cv8vdx4kjn3lx" path="res://COOPBL.TTF" id="4_pj1vv"]
+[ext_resource type="PackedScene" uid="uid://dfh4bcgrkybs3" path="res://LvlSelect.tscn" id="7_b1hwh"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_qvqqe"]
 font = ExtResource("4_pj1vv")
@@ -85,6 +86,14 @@ label_settings = SubResource("LabelSettings_qvqqe")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(596, 137)
+
+[node name="Control" parent="." instance=ExtResource("7_b1hwh")]
+visible = false
+layout_mode = 1
+offset_left = -381.0
+offset_top = -260.0
+offset_right = -381.0
+offset_bottom = -260.0
 
 [connection signal="pressed" from="VBoxContainer/LvlSelect" to="." method="_on_lvl_select_pressed"]
 [connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="_on_QuitButton_pressed"]

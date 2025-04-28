@@ -17,13 +17,17 @@ var boss_spawned = false
 @onready var level_complete_label: Label = get_node("../Player/LevelCompleteLabel")
 
 func _ready():
-	current_wave = 2 #temporary set to test boss wave
 	for i in range(min(enemy_names.size(), enemy_scenes.size())):
 		enemy_dict[enemy_names[i]] = enemy_scenes[i]
 		
 	start_wave_button.connect("pressed", Callable(self, "on_start_wave_button_pressed"))
 	level_complete_label.visible = false
 	start_wave_button.visible = true
+	
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("start_wave"):
+		start_wave_button.visible = false
+		start_wave()
 
 func on_start_wave_button_pressed():
 	start_wave_button.visible = false
@@ -60,6 +64,10 @@ func spawn_enemy(enemy_type: String):
 		var spawn_location = spawn_points[randi() % spawn_points.size()]
 		var enemy = enemy_scene.instantiate()
 		enemy.position = spawn_location.global_position
+		if spawn_location.has_method("get_direction"):
+			if spawn_location.get_direction():
+				if enemy.has_method("change_direction"):
+					enemy.change_direction()
 
 		if enemy.has_signal("died"):
 			var result = enemy.connect("died", Callable(self, "on_enemy_died"))
