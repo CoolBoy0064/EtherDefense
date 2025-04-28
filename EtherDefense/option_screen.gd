@@ -3,6 +3,17 @@ extends Control
 
 signal exited
 
+@onready var fullscreen = $VBoxContainer/Window
+@onready var master_volume = $VBoxContainer/HSlider
+
+func _ready():
+	var video_settings = UserPreferences.load_video_settings()
+	_on_option_button_item_selected(video_settings.fullscreen)
+	
+	var audio_settings = UserPreferences.load_audio_settings()
+	master_volume.value = min(audio_settings.master_volume, 1.0) * 100
+	if (master_volume.value == 0):
+		AudioServer.set_bus_mute(0, 1)
 
 func _on_back_pressed() -> void:
 	emit_signal("exited")
@@ -12,11 +23,11 @@ func _on_back_pressed() -> void:
 func _on_option_button_item_selected(index: int) -> void:
 	match index:
 		0:
-			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 		1:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_MAXIMIZED)
 		2: 
-			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 				
 #func _on_option_button_item_selected(index: int) -> void:
 	#var resolutions := {
@@ -30,7 +41,17 @@ func _on_option_button_item_selected(index: int) -> void:
 		#DisplayServer.window_set_size(resolution)
 
 func _on_h_slider_value_changed(value: float) -> void:
-	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("SFX"),linear_to_db(value))
+	print(value)
+	UserPreferences.save_audio_setting("master_volume", value / 100)
+	if (value == 0):
+		AudioServer.set_bus_mute(0, 1)
+		return
+	else:
+		AudioServer.set_bus_mute(0, 0)
+	var volume_change = value/10
+	AudioServer.set_bus_volume_db(0, volume_change)
+	
+
 	
 	
 func _on_button_pressed() -> void:

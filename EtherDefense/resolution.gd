@@ -3,8 +3,9 @@ extends Control
 signal back
 
 # Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
+func _ready():
+	var video_settings = UserPreferences.load_video_settings()
+	_on_option_button_item_selected(video_settings.resolution)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -24,14 +24,12 @@ offset_bottom = 350.0
 [node name="Window" type="OptionButton" parent="VBoxContainer"]
 layout_mode = 2
 selected = 0
-item_count = 4
-popup/item_0/text = "Fullscreen"
+item_count = 3
+popup/item_0/text = "Windowed"
 popup/item_1/text = "Maxamized"
 popup/item_1/id = 1
-popup/item_2/text = "Minimized "
-popup/item_2/id = 2
-popup/item_3/text = "Windowed "
-popup/item_3/id = 3
+popup/item_2/text = "Fullscreen "
+popup/item_2/id = 3
 
 [node name="Button" type="Button" parent="VBoxContainer"]
 layout_mode = 2

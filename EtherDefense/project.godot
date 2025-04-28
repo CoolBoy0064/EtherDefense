@@ -15,6 +15,10 @@ run/main_scene="res://Title Screen.tscn"
 config/features=PackedStringArray("4.3")
 config/icon="res://icon.png"
 
+[autoload]
+
+UserPreferences="*res://Resources/user_preferences.gd"
+
 [display]
 
 window/size/viewport_width=1920
