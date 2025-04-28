@@ -1,19 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://cp7od0f8qlna1"]
+[gd_scene load_steps=4 format=3 uid="uid://cp7od0f8qlna1"]
 
 [ext_resource type="Script" path="res://option_screen.gd" id="1_nhhob"]
-[ext_resource type="Texture2D" uid="uid://xxmb1q3y145g" path="res://Background.png" id="2_n3r6e"]
 [ext_resource type="Theme" uid="uid://172w2bxq0x0l" path="res://Button.tres" id="3_8vx7w"]
-[ext_resource type="FontFile" uid="uid://cv8vdx4kjn3lx" path="res://COOPBL.TTF" id="4_doy61"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_qvqqe"]
-font = ExtResource("4_doy61")
-font_size = 46
-font_color = Color(0.555013, 0.849787, 1, 1)
-outline_size = 8
-outline_color = Color(0, 0, 0, 1)
-shadow_size = 14
-shadow_color = Color(0, 0.870588, 1, 0.290196)
-shadow_offset = Vector2(2, 1)
+[ext_resource type="PackedScene" uid="uid://1pks3pmj41po" path="res://Resolution.tscn" id="4_0iwlg"]
 
 [node name="Menu" type="Control"]
 layout_mode = 3
@@ -24,15 +13,6 @@ offset_top = 14.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_nhhob")
-
-[node name="TextureRect" type="TextureRect" parent="."]
-layout_mode = 0
-offset_left = 1154.0
-offset_top = 649.0
-offset_right = 2307.0
-offset_bottom = 1673.0
-rotation = -3.14127
-texture = ExtResource("2_n3r6e")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 0
@@ -68,20 +48,13 @@ theme = ExtResource("3_8vx7w")
 text = "Back
 "
 
-[node name="Label" type="Label" parent="."]
-layout_mode = 0
-offset_left = 416.0
-offset_top = 91.0
-offset_right = 743.0
-offset_bottom = 151.0
-text = "Ether Defense"
-label_settings = SubResource("LabelSettings_qvqqe")
-
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(596, 137)
+[node name="Menu" parent="." instance=ExtResource("4_0iwlg")]
+visible = false
+layout_mode = 1
 
 [connection signal="item_selected" from="VBoxContainer/Window" to="." method="_on_option_button_item_selected"]
 [connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_button_pressed"]
 [connection signal="value_changed" from="VBoxContainer/HSlider" to="." method="_on_h_slider_value_changed"]
-[connection signal="pressed" from="VBoxContainer/Back" to="." method="_on_back_pressed"]
 [connection signal="pressed" from="VBoxContainer/Back" to="." method="_on_NewGameButton_pressed"]
+[connection signal="pressed" from="VBoxContainer/Back" to="." method="_on_back_pressed"]
+[connection signal="back" from="Menu" to="." method="_on_menu_back"]

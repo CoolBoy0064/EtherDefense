@@ -22,3 +22,13 @@ func _on_lvl_select_pressed() -> void:
 	$VBoxContainer.hide()
 	$Label.hide()
 	$Control.show()
+
+
+func _on_menu_exited() -> void:
+	$Options.hide()
+	$VBoxContainer.show()
+
+
+func _on_button_pressed() -> void:
+	$VBoxContainer.hide()
+	$Options.show()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://ich3l8imdyi0"]
+[gd_scene load_steps=9 format=3 uid="uid://ich3l8imdyi0"]
 
 [ext_resource type="Script" path="res://MainMenu.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://dj5bmovw3gx4s" path="res://Textures/CityBackdrop.png" id="2_hxn5a"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://c781wks527jod" path="res://Textures/Stars-export.png" id="3_wx42b"]
 [ext_resource type="FontFile" uid="uid://cv8vdx4kjn3lx" path="res://COOPBL.TTF" id="4_pj1vv"]
 [ext_resource type="PackedScene" uid="uid://dfh4bcgrkybs3" path="res://LvlSelect.tscn" id="7_b1hwh"]
+[ext_resource type="PackedScene" uid="uid://cp7od0f8qlna1" path="res://Option Screen.tscn" id="7_grmno"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_qvqqe"]
 font = ExtResource("4_pj1vv")
@@ -95,5 +96,11 @@ offset_top = -260.0
 offset_right = -381.0
 offset_bottom = -260.0
 
+[node name="Options" parent="." instance=ExtResource("7_grmno")]
+visible = false
+layout_mode = 1
+
 [connection signal="pressed" from="VBoxContainer/LvlSelect" to="." method="_on_lvl_select_pressed"]
+[connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="_on_QuitButton_pressed"]
+[connection signal="exited" from="Options" to="." method="_on_menu_exited"]
