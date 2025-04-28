@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://cp7od0f8qlna1"]
 
-[ext_resource type="Script" path="res://option_screen.gd" id="1_t6tqq"]
+[ext_resource type="Script" path="res://option_screen.gd" id="1_nhhob"]
 [ext_resource type="Texture2D" uid="uid://xxmb1q3y145g" path="res://Background.png" id="2_n3r6e"]
 [ext_resource type="Theme" uid="uid://172w2bxq0x0l" path="res://Button.tres" id="3_8vx7w"]
 [ext_resource type="FontFile" uid="uid://cv8vdx4kjn3lx" path="res://COOPBL.TTF" id="4_doy61"]
@@ -23,7 +23,7 @@ anchor_bottom = 1.0
 offset_top = 14.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_t6tqq")
+script = ExtResource("1_nhhob")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 0
@@ -44,16 +44,14 @@ offset_bottom = 350.0
 [node name="Window" type="OptionButton" parent="VBoxContainer"]
 layout_mode = 2
 selected = 0
-item_count = 5
+item_count = 4
 popup/item_0/text = "Fullscreen"
-popup/item_1/text = "Exclusive fullscreen"
+popup/item_1/text = "Maxamized"
 popup/item_1/id = 1
-popup/item_2/text = "Maxamized"
+popup/item_2/text = "Minimized "
 popup/item_2/id = 2
-popup/item_3/text = "Minimized "
+popup/item_3/text = "Windowed "
 popup/item_3/id = 3
-popup/item_4/text = "Windowed "
-popup/item_4/id = 4
 
 [node name="Button" type="Button" parent="VBoxContainer"]
 layout_mode = 2
@@ -85,5 +83,5 @@ position = Vector2(596, 137)
 [connection signal="item_selected" from="VBoxContainer/Window" to="." method="_on_option_button_item_selected"]
 [connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_button_pressed"]
 [connection signal="value_changed" from="VBoxContainer/HSlider" to="." method="_on_h_slider_value_changed"]
-[connection signal="pressed" from="VBoxContainer/Back" to="." method="_on_NewGameButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/Back" to="." method="_on_back_pressed"]
+[connection signal="pressed" from="VBoxContainer/Back" to="." method="_on_NewGameButton_pressed"]
