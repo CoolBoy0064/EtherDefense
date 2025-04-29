@@ -198,6 +198,7 @@ collision_layer = 4
 collision_mask = 3
 script = ExtResource("1_j7no8")
 drop = ExtResource("2_r4dme")
+Health = 100
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_uq04u")

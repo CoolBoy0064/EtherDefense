@@ -1,6 +1,6 @@
 [gd_scene load_steps=23 format=3 uid="uid://6thl7vbhllc"]
 
-[ext_resource type="Script" path="res://meleeenemy.gd" id="1_wfexq"]
+[ext_resource type="Script" path="res://MeleeEnemy.gd" id="1_jqonc"]
 [ext_resource type="PackedScene" uid="uid://b482buce5qyfn" path="res://funds.tscn" id="2_iec0l"]
 [ext_resource type="Texture2D" uid="uid://3tmk2h3hunv3" path="res://Textures/Scorpion/ScorpionAttack.png" id="2_l4snb"]
 [ext_resource type="Texture2D" uid="uid://bnhi4rym3dii6" path="res://Textures/Scorpion/Scorpion.png" id="3_s75tg"]
@@ -189,8 +189,9 @@ border_color = Color(0.34792, 0.879276, 1, 1)
 [node name="Scorpion" type="CharacterBody2D"]
 collision_layer = 4
 collision_mask = 3
-script = ExtResource("1_wfexq")
+script = ExtResource("1_jqonc")
 drop = ExtResource("2_iec0l")
+damage = 15
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_6556i")

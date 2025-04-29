@@ -6,7 +6,7 @@ extends Control
 # var b: String = "text"
 
 
-
+@export var title : PackedScene
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta: float) -> void:
@@ -23,4 +23,4 @@ func _on_try_again_pressed():
 func _on_returnto_title_pressed():
 	$Scene_Transition/Transition.play("fade_out")
 	await $Scene_Transition/Transition.animation_finished
-	get_tree().change_scene_to_file("res://Title Screen.tscn") # Replace with function body.
+	get_tree().change_scene_to_packed(title) 

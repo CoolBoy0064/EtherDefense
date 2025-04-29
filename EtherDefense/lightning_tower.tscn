@@ -40,6 +40,7 @@ border_color = Color(0.403922, 0.870588, 1, 1)
 collision_layer = 2
 collision_mask = 13
 script = ExtResource("1_rnokh")
+damage = 20
 lightning = ExtResource("2_uppaj")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

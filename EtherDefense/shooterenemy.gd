@@ -83,7 +83,7 @@ func shoot():
 		dir.x = -1
 		bullet_instance.global_position = gun.global_position
 	bullet_instance.direction = dir
-	bullet_instance.set_damage(3)
+	bullet_instance.set_damage(10)
 
 
 func new_target():

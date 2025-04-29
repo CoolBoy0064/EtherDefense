@@ -7,7 +7,7 @@ extends Control
 @export var Tower3 : PackedScene
 @export var Tower1_cost = 10
 @export var Tower2_cost = 10
-@export var Tower3_cost = 10
+@export var Tower3_cost = 15
 @export var MAX_FUNDAMENTALS = 50
 var fundamentals = 20
 

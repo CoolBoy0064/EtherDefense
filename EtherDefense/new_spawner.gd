@@ -4,7 +4,6 @@ extends Node2D
 @export var enemy_names: Array[String]  
 @export var spawn_points: Array[Node2D]
 @export var waves: Array[Dictionary]
-@export var next_level: PackedScene
 @export var spawn_interval: float = 1.0 
 
 var enemy_dict = {}
@@ -13,14 +12,13 @@ var enemies_remaining = 0
 var complete = false
 var boss_spawned = false
 
-@onready var start_wave_button: Button = get_node("../Player/StartNextWave")
+@onready var start_wave_button: Label = get_node("../Player/StartNextWave")
 @onready var level_complete_label: Label = get_node("../Player/LevelCompleteLabel")
 
 func _ready():
 	for i in range(min(enemy_names.size(), enemy_scenes.size())):
 		enemy_dict[enemy_names[i]] = enemy_scenes[i]
 		
-	start_wave_button.connect("pressed", Callable(self, "on_start_wave_button_pressed"))
 	level_complete_label.visible = false
 	start_wave_button.visible = true
 	
@@ -29,9 +27,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		start_wave_button.visible = false
 		start_wave()
 
-func on_start_wave_button_pressed():
-	start_wave_button.visible = false
-	start_wave()
 
 func start_wave():
 	if current_wave >= waves.size():
@@ -45,6 +40,8 @@ func start_wave():
 	print("Starting Wave " + str(current_wave + 1))
 	enemies_remaining = 0  
 
+	for enemy_type in wave_data.keys(): 
+		enemies_remaining += wave_data[enemy_type] #add up all enemies in a wave 
 	
 	for enemy_type in wave_data.keys():
 		var count = wave_data[enemy_type]
@@ -74,7 +71,6 @@ func spawn_enemy(enemy_type: String):
 			print("Signal connected:", result, "for", enemy_type)
 
 		get_parent().call_deferred("add_child", enemy)
-		enemies_remaining += 1
 		print("Spawned:", enemy_type, "| enemies_remaining = ", enemies_remaining)
 	else:
 		print("Unknown enemy type:", enemy_type)
@@ -89,5 +85,3 @@ func on_enemy_died():
 		else:
 			level_complete_label.visible = true
 			level_complete_label.text = "Level Completed!"
-			await get_tree().create_timer(5.0).timeout
-			get_tree().change_scene_to_file.bind("res://Title Screen.tscn").call_deferred()

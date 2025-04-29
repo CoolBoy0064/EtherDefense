@@ -86,6 +86,7 @@ border_color = Color(0.34792, 0.879276, 1, 1)
 collision_layer = 4
 collision_mask = 3
 script = ExtResource("1_81ns6")
+MAX_HEALTH = 40
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_i81sl")

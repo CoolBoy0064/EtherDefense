@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=4 uid="uid://cety0kg78aykn"]
+[gd_scene load_steps=21 format=4 uid="uid://cety0kg78aykn"]
 
 [ext_resource type="Script" path="res://level.gd" id="1_3vtcg"]
 [ext_resource type="Texture2D" uid="uid://sviffo2knod" path="res://Textures/Tile.png" id="2"]
@@ -13,7 +13,6 @@
 [ext_resource type="Script" path="res://new_spawner.gd" id="10_u3xyj"]
 [ext_resource type="PackedScene" uid="uid://6thl7vbhllc" path="res://scorpion.tscn" id="12_8bwxu"]
 [ext_resource type="PackedScene" uid="uid://b1tp87d71nlpw" path="res://ShooterEnemy.tscn" id="12_owosn"]
-[ext_resource type="PackedScene" uid="uid://ich3l8imdyi0" path="res://Title Screen.tscn" id="13_kye4k"]
 [ext_resource type="PackedScene" uid="uid://iklbl36rmf6s" path="res://extirpator.tscn" id="14_iea6a"]
 [ext_resource type="PackedScene" uid="uid://cwbdk1gs7a6av" path="res://player_stuff/Death_barrier.tscn" id="15_c18lw"]
 [ext_resource type="PackedScene" uid="uid://bn5ry1kmkpp1m" path="res://Spawner_portal.tscn" id="16_mb08y"]
@@ -1233,8 +1232,10 @@ offset_bottom = -89.0
 
 [node name="StartNextWave" parent="Player" instance=ExtResource("4_5lnyw")]
 visible = false
-offset_top = -117.0
-offset_bottom = -90.0
+offset_left = -326.0
+offset_top = -491.0
+offset_right = 322.0
+offset_bottom = -423.0
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
@@ -1258,7 +1259,7 @@ texture = ExtResource("7_ci4ku")
 offset = Vector2(-5784, -630)
 
 [node name="Gem" parent="." instance=ExtResource("8_h8dl0")]
-position = Vector2(-173, 47)
+position = Vector2(-487, 34)
 
 [node name="NewSpawner" parent="." node_paths=PackedStringArray("spawn_points") instance=ExtResource("10_ghao7")]
 position = Vector2(1202, -215)
@@ -1278,7 +1279,6 @@ waves = Array[Dictionary]([{
 }, {
 "extirpator": 1
 }])
-next_level = ExtResource("13_kye4k")
 
 [node name="SpawnPoint2" type="Node2D" parent="NewSpawner"]
 position = Vector2(-15, -364)

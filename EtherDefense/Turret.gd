@@ -71,7 +71,7 @@ func shoot():
 		scale.x = -1
 		lookleft = 0
 	bullet_instance.direction = dir
-	bullet_instance.set_damage(10)
+	bullet_instance.set_damage(25)
 	
 
 func handle_hit(damage):

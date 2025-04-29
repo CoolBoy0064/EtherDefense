@@ -338,6 +338,7 @@ collision_layer = 4
 collision_mask = 11
 script = ExtResource("1_40nk3")
 Bullet = ExtResource("2_rh8d8")
+MAX_HEALTH = 500
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_uawx0")

@@ -1,10 +1,14 @@
 extends CharacterBody2D
 
 @export var gravity = 1600
-@export var Health = 50
-@export var MAX_HEALTH = 50
+@export var Health = 100
+@export var MAX_HEALTH = 100
 @export var start_scale = 1 #set to -1 to start flipped
 
+func _ready() -> void:
+	if start_scale == -1:
+		flip_tower()
+	apply_floor_snap()
 
 func handle_hit(damage):
 	Health = Health - damage
