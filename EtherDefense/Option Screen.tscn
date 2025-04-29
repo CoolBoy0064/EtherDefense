@@ -1,8 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://cp7od0f8qlna1"]
+[gd_scene load_steps=3 format=3 uid="uid://cp7od0f8qlna1"]
 
 [ext_resource type="Script" path="res://option_screen.gd" id="1_nhhob"]
 [ext_resource type="Theme" uid="uid://172w2bxq0x0l" path="res://Button.tres" id="3_8vx7w"]
-[ext_resource type="PackedScene" uid="uid://1pks3pmj41po" path="res://Resolution.tscn" id="4_0iwlg"]
 
 [node name="Menu" type="Control"]
 layout_mode = 3
@@ -31,10 +30,6 @@ popup/item_1/id = 1
 popup/item_2/text = "Fullscreen "
 popup/item_2/id = 3
 
-[node name="Button" type="Button" parent="VBoxContainer"]
-layout_mode = 2
-text = "Resolution"
-
 [node name="HSlider" type="HSlider" parent="VBoxContainer"]
 layout_mode = 2
 max_value = 1.5
@@ -46,13 +41,7 @@ theme = ExtResource("3_8vx7w")
 text = "Back
 "
 
-[node name="Menu" parent="." instance=ExtResource("4_0iwlg")]
-visible = false
-layout_mode = 1
-
 [connection signal="item_selected" from="VBoxContainer/Window" to="." method="_on_option_button_item_selected"]
-[connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_button_pressed"]
 [connection signal="value_changed" from="VBoxContainer/HSlider" to="." method="_on_h_slider_value_changed"]
 [connection signal="pressed" from="VBoxContainer/Back" to="." method="_on_NewGameButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/Back" to="." method="_on_back_pressed"]
-[connection signal="back" from="Menu" to="." method="_on_menu_back"]

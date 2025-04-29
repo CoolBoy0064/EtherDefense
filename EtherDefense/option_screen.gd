@@ -8,7 +8,15 @@ signal exited
 
 func _ready():
 	var video_settings = UserPreferences.load_video_settings()
-	_on_option_button_item_selected(video_settings.fullscreen)
+	fullscreen.select(video_settings.fullscreen)
+	print(video_settings.fullscreen)
+	match video_settings.fullscreen:
+		0:
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+		1:
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_MAXIMIZED)
+		2: 
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	
 	var audio_settings = UserPreferences.load_audio_settings()
 	master_volume.value = min(audio_settings.master_volume, 1.0) * 100
@@ -24,10 +32,13 @@ func _on_option_button_item_selected(index: int) -> void:
 	match index:
 		0:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+			UserPreferences.save_video_setting("fullscreen", 0)
 		1:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_MAXIMIZED)
+			UserPreferences.save_video_setting("fullscreen", 1)
 		2: 
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+			UserPreferences.save_video_setting("fullscreen", 2)
 				
 #func _on_option_button_item_selected(index: int) -> void:
 	#var resolutions := {
