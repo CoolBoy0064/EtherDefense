@@ -72,7 +72,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		isShieldUp = false
 		$AnimationPlayer.play("Shield_Throw")
 	if event.is_action_pressed("ui_pause"):
-		get_tree().change_scene_to_file("res://Title Screen.tscn")
+		get_tree().paused = true
+		$pause_menu.show()
+		$Build_Menu.hide()
 	if event.is_action_pressed("spawn_tower"):
 		$Build_Menu.show()
 		
@@ -81,6 +83,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func _physics_process(delta):
 	
 	#Jumping and gravity
+	Engine.get_frames_per_second() #For some reason this fixes a lag issue, and i dont have time to figure out why
 	if (!dead):
 		if Input.is_action_just_pressed("jump") and is_on_wall() and !shieldActive and !is_on_floor() and !wallJump:
 			if Input.is_action_pressed("dash"):
@@ -89,8 +92,6 @@ func _physics_process(delta):
 			direction.x = -direction.x
 		is_jump_interrupted = Input.is_action_just_released("jump") and velocity.y < 0
 		direction = get_direction(wallJump)
-		if !is_on_floor() && $Slope_detector.is_colliding():
-			apply_floor_snap()
 		velocity = calculate_move_velocity(velocity,direction, speed, is_jump_interrupted, wallJump)
 		set_velocity(velocity)
 		move_and_slide()
@@ -143,7 +144,11 @@ func _ready():
 
 func get_direction(wallJump: bool) -> Vector2:
 	var jumping
-	var movement_direction = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
+	var movement_direction = 0
+	if Input.is_action_pressed("move_right"):
+		movement_direction += 1
+	if Input.is_action_pressed("move_left"):
+		movement_direction -= 1
 	if Input.is_action_just_pressed("jump") and is_on_floor() or Input.is_action_just_pressed("jump") and is_on_wall():
 		if !attacking:
 			$Sprite.play("Jumping")
@@ -319,4 +324,3 @@ func create_dust():
 func _on_ghost_timer_timeout() -> void:
 	if isDashing:
 		createGhost()
-		

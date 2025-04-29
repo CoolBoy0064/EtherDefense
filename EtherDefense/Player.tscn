@@ -1,4 +1,4 @@
-[gd_scene load_steps=117 format=3 uid="uid://b38fv8ebxh62y"]
+[gd_scene load_steps=118 format=3 uid="uid://b38fv8ebxh62y"]
 
 [ext_resource type="Script" path="res://Player.gd" id="2"]
 [ext_resource type="PackedScene" uid="uid://c7jof21gvvmq5" path="res://Projectiles/Melee Hurtbox.tscn" id="3"]
@@ -28,6 +28,7 @@
 [ext_resource type="Texture2D" uid="uid://cnrshctv0ign7" path="res://Textures/Player Sprites/misc/gunpfp.png" id="21_ie2i8"]
 [ext_resource type="Texture2D" uid="uid://178triklpcl3" path="res://Textures/Player Sprites/misc/shieldpfp.png" id="22_we8o5"]
 [ext_resource type="Texture2D" uid="uid://dpwn3w7lq3frn" path="res://Textures/funds.png" id="25_p2hto"]
+[ext_resource type="Script" path="res://pause_menu.gd" id="29_xutdv"]
 
 [sub_resource type="CanvasItemMaterial" id="8"]
 
@@ -1392,8 +1393,58 @@ autoplay = "gun"
 
 [node name="Ghost_timer" type="Timer" parent="."]
 
-[node name="Slope_detector" type="RayCast2D" parent="."]
-target_position = Vector2(0, 73)
+[node name="pause_menu" type="Control" parent="."]
+process_mode = 2
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("29_xutdv")
+
+[node name="Button" type="Button" parent="pause_menu"]
+offset_left = -90.0
+offset_top = -157.0
+offset_right = 88.0
+offset_bottom = -103.0
+theme = ExtResource("11_4aatc")
+text = "Restart Map"
+
+[node name="Button2" type="Button" parent="pause_menu"]
+layout_mode = 0
+offset_left = -108.0
+offset_top = -88.0
+offset_right = 109.0
+offset_bottom = -34.0
+theme = ExtResource("11_4aatc")
+text = "To Title Screen"
+
+[node name="Button3" type="Button" parent="pause_menu"]
+layout_mode = 0
+offset_left = -69.0
+offset_top = -24.0
+offset_right = 71.0
+offset_bottom = 30.0
+theme = ExtResource("11_4aatc")
+text = "Quit Game"
+
+[node name="Button4" type="Button" parent="pause_menu"]
+layout_mode = 0
+offset_left = -67.0
+offset_top = -223.0
+offset_right = 60.0
+offset_bottom = -169.0
+theme = ExtResource("11_4aatc")
+text = "Continue"
+
+[node name="Label" type="Label" parent="pause_menu"]
+layout_mode = 0
+offset_left = -74.0
+offset_top = -307.0
+offset_right = 70.0
+offset_bottom = -239.0
+text = "Paused"
+label_settings = ExtResource("8_tgje5")
 
 [connection signal="body_entered" from="EnemyDetector" to="." method="_on_EnemyDetector_body_entered"]
 [connection signal="pressed" from="Build_Menu/Turret" to="Build_Menu" method="_on_turret_pressed"]
@@ -1401,3 +1452,7 @@ target_position = Vector2(0, 73)
 [connection signal="pressed" from="Build_Menu/Exit" to="Build_Menu" method="_on_exit_pressed"]
 [connection signal="pressed" from="Build_Menu/Lightning" to="Build_Menu" method="_on_lightning_pressed"]
 [connection signal="timeout" from="Ghost_timer" to="." method="_on_ghost_timer_timeout"]
+[connection signal="pressed" from="pause_menu/Button" to="pause_menu" method="_on_button_pressed"]
+[connection signal="pressed" from="pause_menu/Button2" to="pause_menu" method="_on_button_2_pressed"]
+[connection signal="pressed" from="pause_menu/Button3" to="pause_menu" method="_on_button_3_pressed"]
+[connection signal="pressed" from="pause_menu/Button4" to="pause_menu" method="_on_button_4_pressed"]

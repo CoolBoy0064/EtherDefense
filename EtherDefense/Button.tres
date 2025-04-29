@@ -1,6 +1,6 @@
 [gd_resource type="Theme" load_steps=7 format=3 uid="uid://172w2bxq0x0l"]
 
-[ext_resource type="FontFile" uid="uid://cv8vdx4kjn3lx" path="res://COOPBL.TTF" id="1_1gr7q"]
+[ext_resource type="FontFile" uid="uid://bbj7rvcnx8wqh" path="res://UI_Stuff/Pixeled.ttf" id="1_jc7xm"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_np7k3"]
 content_margin_left = 4.0
@@ -90,7 +90,7 @@ Button/constants/h_separation = 4
 Button/constants/icon_max_width = 0
 Button/constants/outline_size = 0
 Button/font_sizes/font_size = 16
-Button/fonts/font = ExtResource("1_1gr7q")
+Button/fonts/font = ExtResource("1_jc7xm")
 Button/styles/disabled = SubResource("StyleBoxFlat_np7k3")
 Button/styles/focus = SubResource("StyleBoxFlat_aw1vk")
 Button/styles/hover = SubResource("StyleBoxFlat_w72kw")
