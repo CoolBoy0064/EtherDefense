@@ -73,3 +73,6 @@ func _on_button_pressed() -> void:
 func _on_menu_back() -> void:
 	$Menu.hide()
 	$VBoxContainer.show()
+	
+func grab():
+	$VBoxContainer/Window.grab_focus()

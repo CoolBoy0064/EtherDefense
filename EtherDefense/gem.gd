@@ -5,7 +5,7 @@ class_name Gem
 @export var health: int = 100
 var iFrames: bool = false
 @onready var HPBar = $HealthBar
-@onready var iFrameTimer = $IFrameTimer  
+@onready var timer = $IFrameTimer  
 
 func _ready():
 	HPBar.max_value = 100  
@@ -17,9 +17,6 @@ func handle_hit(damage: int):
 		health = max(health, 0)  
 		HPBar.value = (health / float(max_health)) * 100  
 
-		iFrames = true
-		iFrameTimer.start()  
-
 		if health <= 0:
 			die()
 
@@ -28,8 +25,13 @@ func _on_EnemyDetector_body_entered(body):
 		handle_hit(body.get_Damage())
 
 func die():
-	queue_free()  
-	get_tree().change_scene_to_file("res://GameOver.tscn")  
+	$Control.show()
+	$Camera2D.enabled = true
+	$Camera2D.make_current()
+	timer.start(.5)
+	await timer.timeout
+	$Control.game_over()
+	
 
 func _on_IFrameTimer_timeout():
 	iFrames = false

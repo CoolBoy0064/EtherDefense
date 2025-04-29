@@ -1,15 +1,16 @@
-[gd_scene load_steps=9 format=3 uid="uid://ich3l8imdyi0"]
+[gd_scene load_steps=10 format=3 uid="uid://ich3l8imdyi0"]
 
 [ext_resource type="Script" path="res://MainMenu.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://dj5bmovw3gx4s" path="res://Textures/CityBackdrop.png" id="2_hxn5a"]
 [ext_resource type="Theme" uid="uid://172w2bxq0x0l" path="res://Button.tres" id="3_8jfv3"]
 [ext_resource type="Texture2D" uid="uid://c781wks527jod" path="res://Textures/Stars-export.png" id="3_wx42b"]
-[ext_resource type="FontFile" uid="uid://cv8vdx4kjn3lx" path="res://COOPBL.TTF" id="4_pj1vv"]
+[ext_resource type="FontFile" uid="uid://bbj7rvcnx8wqh" path="res://UI_Stuff/Pixeled.ttf" id="5_vynkj"]
 [ext_resource type="PackedScene" uid="uid://dfh4bcgrkybs3" path="res://LvlSelect.tscn" id="7_b1hwh"]
 [ext_resource type="PackedScene" uid="uid://cp7od0f8qlna1" path="res://Option Screen.tscn" id="7_grmno"]
+[ext_resource type="LabelSettings" uid="uid://3ju0s8st4ldj" path="res://RespawnSettings.tres" id="8_nvmvo"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_qvqqe"]
-font = ExtResource("4_pj1vv")
+font = ExtResource("5_vynkj")
 font_size = 46
 font_color = Color(0.555013, 0.849787, 1, 1)
 outline_size = 8
@@ -78,15 +79,15 @@ text = "Quit"
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 0
-offset_left = 416.0
-offset_top = 91.0
-offset_right = 743.0
-offset_bottom = 151.0
+offset_left = 283.0
+offset_top = 16.0
+offset_right = 853.0
+offset_bottom = 146.0
 text = "Ether Defense"
 label_settings = SubResource("LabelSettings_qvqqe")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(596, 137)
+position = Vector2(596, 300)
 
 [node name="Control" parent="." instance=ExtResource("7_b1hwh")]
 visible = false
@@ -100,7 +101,54 @@ offset_bottom = -260.0
 visible = false
 layout_mode = 1
 
+[node name="Tutorial" type="CanvasLayer" parent="."]
+visible = false
+offset = Vector2(200, 0)
+transform = Transform2D(1, 0, 0, 1, 200, 0)
+follow_viewport_enabled = true
+
+[node name="ColorRect" type="ColorRect" parent="Tutorial"]
+offset_right = 669.0
+offset_bottom = 662.0
+color = Color(0.145098, 0.294118, 0.396078, 1)
+
+[node name="Label" type="Label" parent="Tutorial"]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "How to play:
+
+Move using WASD or DPAD
+Initiate a dash using W or RB
+Player Attacks using FVE or XYB
+Spawn tower using ONE or LB
+Start wave using 4 or SELECT
+Pause with ESC or Start
+Oh and jump using space or A
+"
+label_settings = ExtResource("8_nvmvo")
+
+[node name="Closing" type="Button" parent="Tutorial"]
+offset_left = 676.0
+offset_top = 607.0
+offset_right = 755.0
+offset_bottom = 661.0
+theme = ExtResource("3_8jfv3")
+text = "Close"
+
+[node name="how_to_play" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1295.0
+offset_top = 746.0
+offset_right = 1454.0
+offset_bottom = 800.0
+theme = ExtResource("3_8jfv3")
+text = "How to Play"
+
+[node name="Timer" type="Timer" parent="."]
+
 [connection signal="pressed" from="VBoxContainer/LvlSelect" to="." method="_on_lvl_select_pressed"]
 [connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="_on_QuitButton_pressed"]
 [connection signal="exited" from="Options" to="." method="_on_menu_exited"]
+[connection signal="pressed" from="Tutorial/Closing" to="." method="_on_closing_pressed"]
+[connection signal="pressed" from="how_to_play" to="." method="_on_how_to_play_pressed"]

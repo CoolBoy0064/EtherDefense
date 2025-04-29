@@ -16,6 +16,7 @@ func _on_turret_pressed() -> void:
 	if fundamentals < Tower1_cost:
 		print("ERROR not enough funds")
 		hide()
+		get_tree().paused = false
 		return
 	
 	fundamentals = fundamentals - Tower1_cost
@@ -28,11 +29,13 @@ func _on_turret_pressed() -> void:
 		tower_instance.global_position = $Placement_spot2.global_position
 	tower_instance.apply_floor_snap()
 	hide()
+	get_tree().paused = false
 
 
 #Hides the Build Menu and does nothing else
 func _on_exit_pressed() -> void:
 	hide()
+	get_tree().paused = false
 
 
 
@@ -41,6 +44,7 @@ func _on_wall_pressed() -> void:
 	if fundamentals < Tower2_cost:
 		print("ERROR not enough funds")
 		hide()
+		get_tree().paused = false
 		return
 	
 	fundamentals = fundamentals - Tower2_cost
@@ -53,6 +57,7 @@ func _on_wall_pressed() -> void:
 		tower_instance.global_position = $Placement_spot2.global_position
 	tower_instance.apply_floor_snap()
 	hide()
+	get_tree().paused = false
 
 func add_funds(funds):
 	fundamentals = fundamentals + funds
@@ -64,6 +69,7 @@ func _on_lightning_pressed() -> void:
 	if fundamentals < Tower3_cost:
 		print("ERROR not enough funds")
 		hide()
+		get_tree().paused = false
 		return
 	
 	fundamentals = fundamentals - Tower3_cost
@@ -75,3 +81,4 @@ func _on_lightning_pressed() -> void:
 		tower_instance.global_position = $Placement_spot2.global_position
 	tower_instance.apply_floor_snap()
 	hide()
+	get_tree().paused = false

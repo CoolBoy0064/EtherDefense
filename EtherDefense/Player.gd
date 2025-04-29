@@ -74,9 +74,12 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_pause"):
 		get_tree().paused = true
 		$pause_menu.show()
+		$pause_menu/Button.grab_focus()
 		$Build_Menu.hide()
 	if event.is_action_pressed("spawn_tower"):
 		$Build_Menu.show()
+		$Build_Menu/Exit.grab_focus()
+		get_tree().paused = true
 		
 	
 
@@ -212,7 +215,7 @@ func shoot():
 		dir.x = -1
 		bullet_instance.global_position = gun2.global_position
 	bullet_instance.direction = dir
-	bullet_instance.set_damage(10)
+	bullet_instance.set_damage(20)
 	
 func swing():
 	var melee_instance = Melee.instantiate()
@@ -221,7 +224,7 @@ func swing():
 		melee_instance.global_position = gun.global_position
 	elif lookLeft:
 		melee_instance.global_position = gun2.global_position
-	melee_instance.set_damage(10)
+	melee_instance.set_damage(50)
 	
 func shield():
 		shieldUpInstance.queue_free()
@@ -235,7 +238,7 @@ func shield():
 		elif lookLeft:
 			shield_instance.global_position = gun2.global_position
 			dir.x = -1
-		shield_instance.set_damage(10)
+		shield_instance.set_damage(25)
 		shield_instance.direction = dir
 		shield_instance.connect("shieldDied", Callable(self, "setShield"))
 		

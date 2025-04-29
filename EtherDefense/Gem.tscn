@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://dv3u66qx3ydv4"]
+[gd_scene load_steps=10 format=3 uid="uid://dv3u66qx3ydv4"]
 
 [ext_resource type="Script" path="res://gem.gd" id="1_6f5wp"]
 [ext_resource type="Texture2D" uid="uid://rqq8tc3372x" path="res://Textures/Giant Ruby.png" id="2_4i5dw"]
+[ext_resource type="PackedScene" uid="uid://b26s8qjdnkn0f" path="res://GameOver.tscn" id="3_hfgf6"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4fvhy"]
 radius = 52.0
@@ -67,5 +68,16 @@ texture = ExtResource("2_4i5dw")
 
 [node name="IFrameTimer" type="Timer" parent="."]
 wait_time = 0.5
+
+[node name="Control" parent="." instance=ExtResource("3_hfgf6")]
+visible = false
+offset_left = 7.0
+offset_top = -244.0
+offset_right = 7.0
+offset_bottom = -244.0
+
+[node name="Camera2D" type="Camera2D" parent="."]
+enabled = false
+position_smoothing_enabled = true
 
 [connection signal="timeout" from="IFrameTimer" to="." method="_on_IFrameTimer_timeout"]

@@ -1,9 +1,9 @@
 [gd_scene load_steps=7 format=3 uid="uid://b26s8qjdnkn0f"]
 
-[ext_resource type="Texture2D" uid="uid://xxmb1q3y145g" path="res://Background.png" id="1_ocdr8"]
 [ext_resource type="Script" path="res://GameOver.gd" id="1_oey1y"]
 [ext_resource type="FontFile" uid="uid://cv8vdx4kjn3lx" path="res://COOPBL.TTF" id="2_n364l"]
 [ext_resource type="Theme" uid="uid://172w2bxq0x0l" path="res://Button.tres" id="3_3djay"]
+[ext_resource type="PackedScene" uid="uid://cw2i31kaypykh" path="res://UI_Stuff/Scene_Transition.tscn" id="4_7pjsf"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_sh1ii"]
 font = ExtResource("2_n364l")
@@ -30,33 +30,21 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_oey1y")
 
-[node name="TextureRect" type="TextureRect" parent="."]
-layout_mode = 1
-anchors_preset = -1
-anchor_top = -0.095
-anchor_bottom = -0.095
-offset_left = 1154.0
-offset_top = 1282.82
-offset_right = 2307.0
-offset_bottom = 2306.82
-rotation = -3.14127
-texture = ExtResource("1_ocdr8")
-
 [node name="Label" type="Label" parent="."]
 layout_mode = 0
-offset_left = 419.0
-offset_top = 426.217
-offset_right = 728.0
-offset_bottom = 496.217
+offset_left = -149.0
+offset_top = -123.0
+offset_right = 160.0
+offset_bottom = -53.0
 text = "GAME OVER!"
 label_settings = SubResource("LabelSettings_sh1ii")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 0
-offset_left = 417.0
-offset_top = 590.217
-offset_right = 714.0
-offset_bottom = 660.217
+offset_left = -163.0
+offset_top = 101.0
+offset_right = 165.0
+offset_bottom = 216.0
 theme = SubResource("Theme_en1ye")
 
 [node name="TryAgain" type="Button" parent="VBoxContainer"]
@@ -69,6 +57,8 @@ layout_mode = 2
 theme = ExtResource("3_3djay")
 text = "Return to Title
 "
+
+[node name="Scene_Transition" parent="." instance=ExtResource("4_7pjsf")]
 
 [connection signal="pressed" from="VBoxContainer/TryAgain" to="." method="_on_try_again_pressed"]
 [connection signal="pressed" from="VBoxContainer/ReturntoTitle" to="." method="_on_returnto_title_pressed"]
